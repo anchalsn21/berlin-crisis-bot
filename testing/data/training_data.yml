@@ -1,0 +1,348 @@
+version: "3.1"
+nlu:
+- intent: share_gps_location
+  examples: |
+    - my coordinates are
+    - here's my location
+    - here is my gps location
+    - latitude longitude
+    - sharing my gps
+- intent: request_location_help
+  examples: |
+    - i'm not sure where i am
+    - i don't know my district
+    - what districts are there
+    - which district am i in
+    - show me the districts
+    - help me find my location
+- intent: inform_status
+  examples: |
+    - we are [trapped](injury_status)
+    - status: [safe](injury_status)
+    - [safe](injury_status) for now
+    - i am [injured](injury_status)
+    - my status is [safe](injury_status)
+- intent: request_safety_instructions
+  examples: |
+    - what are the safety steps
+    - help me stay safe
+    - how do i stay safe
+    - emergency procedures
+    - give me instructions
+    - what should i do
+    - safety guidelines
+- intent: deny
+  examples: |
+    - no thanks
+    - no
+    - nein
+    - not really
+    - nope
+    - don't think so
+    - incorrect
+- intent: inform_emergency_type
+  examples: |
+    - experiencing [earthquake](emergency_type)
+    - it's an [earthquake](emergency_type)
+    - [wildfire](emergency_type) in the area
+    - this is about [flood](emergency_type)
+    - [flood](emergency_type) emergency
+    - we have a [flood](emergency_type)
+    - [earthquake](emergency_type) situation
+- intent: request_human_help
+  examples: |
+    - i need real help
+    - this is serious
+    - escalate this
+    - can i speak to a person
+    - human operator please
+    - i need a real person
+    - i need to talk to a human
+- intent: request_emergency_contacts
+  examples: |
+    - what's the emergency number
+    - ambulance number
+    - emergency numbers
+    - who do i call
+    - show me contacts
+    - emergency hotline
+    - give me emergency contacts
+    - police number
+- intent: request_shelter_info
+  examples: |
+    - evacuation centers
+    - emergency shelters
+    - where are the shelters
+    - nearest shelter
+    - shelter locations
+    - safe places nearby
+    - show me shelters
+- intent: out_of_scope
+  examples: |
+    - who are you
+    - what can you do
+    - play music
+    - translate something
+    - what time is it
+    - order pizza
+    - what's your name
+    - what's the weather
+- intent: goodbye
+  examples: |
+    - see you
+    - quit
+    - close
+    - thank you
+    - bye
+    - i'm done
+    - tschüss
+    - exit
+    - danke
+    - auf wiedersehen
+- intent: affirm
+  examples: |
+    - yeah
+    - that's right
+    - yep
+    - right
+    - ok
+    - sure
+    - correct
+    - okay
+    - jawohl
+    - ja
+    - exactly
+- intent: report_trapped
+  examples: |
+    - we're stuck
+    - trapped in building
+    - can't escape
+    - surrounded by water
+    - no way out
+    - door is blocked
+    - i'm trapped
+    - can't get out
+    - we are trapped
+    - stuck in my apartment
+    - blocked exit
+    - trapped under rubble
+- intent: greet
+  examples: |
+    - hey there
+    - hallo
+    - start
+    - hey
+    - can you help me
+    - hello there
+    - help
+    - hi there
+    - good evening
+    - hi
+    - good morning
+    - begin
+    - i need help
+    - guten tag
+- intent: report_wildfire
+  examples: |
+    - there's a wildfire nearby
+    - wildfire!
+    - forest fire
+    - wildfire emergency
+    - fire!
+    - i can see flames
+    - smoke from wildfire
+    - fire in the area
+    - waldbrand
+    - wildfire
+    - feuer
+    - fire in the woods
+    - bush fire
+    - smoke everywhere
+- intent: report_safe
+  examples: |
+    - we're all safe
+    - everyone is safe
+    - we're fine
+    - i'm okay
+    - no danger
+    - i'm fine
+    - we are safe
+    - not hurt
+    - everyone is okay
+    - safe and sound
+    - i'm safe
+    - i'm not injured
+    - i'm not in danger
+    - no one is hurt
+    - i am safe
+- intent: report_injured
+  examples: |
+    - can't walk
+    - someone is hurt
+    - i'm injured
+    - i have wounds
+    - i got hurt
+    - yes injured
+    - yes i am injured
+    - severe pain
+    - people are injured
+    - we have injuries
+    - broken arm
+    - wounded
+    - i need medical help
+    - there are injuries
+- intent: report_earthquake
+  examples: |
+    - everything is shaking
+    - tremor
+    - my apartment is shaking
+    - earthquake emergency
+    - i feel the ground shaking
+    - earthquake!
+    - we have an earthquake
+    - we just had an earthquake
+    - there's an earthquake
+    - erdbeben
+    - building is shaking
+    - there was an earthquake
+    - it's an earthquake
+    - earthquake
+    - earthquake happening now
+- intent: report_flood
+  examples: |
+    - my basement is flooded
+    - flood waters rising
+    - überschwemmung
+    - water is rising
+    - water everywhere
+    - flooding
+    - hochwasser
+    - flood emergency
+    - flood
+    - there's flooding
+    - water is coming in
+    - flooding in my area
+    - flash flood
+    - it's flooding here
+    - streets are underwater
+    - flood!
+- intent: inform_location
+  examples: |
+    - [Wilmersdorf](district)
+    - [kreuzberg](district)
+    - [Steglitz](district) district
+    - [Treptow](district)
+    - [Friedrichshain](district) area
+    - [10967](postcode)
+    - [neukolln](district)
+    - [Wedding](district)
+    - [friedrichshain](district)
+    - [Reinickendorf](district)
+    - [Hellersdorf](district)
+    - i'm in [Mitte](district)
+    - i'm at postcode [10405](postcode)
+    - [10963](postcode)
+    - [charlottenburg](district)
+    - [mitte](district)
+    - [Lichtenberg](district)
+    - [Marzahn](district) area
+    - living in [Neukölln](district)
+    - [10119](postcode)
+    - my location is [Charlottenburg](district)
+    - i'm in [Tempelhof](district)
+    - my postcode is [10115](postcode)
+    - in [Pankow](district)
+    - [neukoelln](district)
+    - postcode [10961](postcode)
+    - [10117](postcode)
+    - [Zehlendorf](district)
+    - [prenzlauer](district)
+    - [10965](postcode)
+    - [10997](postcode)
+    - my area is [Kreuzberg](district)
+- synonym: Mitte
+  examples: |
+    - mitte
+    - mitt
+    - center
+    - central
+    - zentrum
+- synonym: Kreuzberg
+  examples: |
+    - kreuzberg
+    - kreuz
+    - xberg
+    - x-berg
+- synonym: Prenzlauer Berg
+  examples: |
+    - prenzlauer berg
+    - prenzlauer
+    - prenzl
+    - prenz
+    - prenzlauerberg
+- synonym: Charlottenburg
+  examples: |
+    - charlottenburg
+    - charlotten
+    - charlott
+    - charlottenberg
+- synonym: Friedrichshain
+  examples: |
+    - friedrichshain
+    - friedrichhain
+    - friedrichshan
+    - fhain
+- synonym: Schöneberg
+  examples: |
+    - schöneberg
+    - schoneberg
+    - schoeneberg
+    - schonberg
+- synonym: Neukölln
+  examples: |
+    - neukölln
+    - neukolln
+    - neukoelln
+    - neukölnn
+- synonym: Tempelhof
+  examples: |
+    - tempelhof
+    - tempel
+    - templehof
+- synonym: Steglitz
+  examples: |
+    - steglitz
+    - stegl
+    - stieglitz
+- synonym: Spandau
+  examples: |
+    - spandau
+    - spand
+    - spandow
+- synonym: Pankow
+  examples: |
+    - pankow
+    - pankov
+    - pank
+- synonym: Wedding
+  examples: |
+    - wedding
+    - wed
+- synonym: Lichtenberg
+  examples: |
+    - lichtenberg
+    - lichten
+- synonym: Marzahn
+  examples: |
+    - marzahn
+    - marz
+- synonym: Treptow
+  examples: |
+    - treptow
+    - trept
+- regex: emergency_type
+  examples: |
+    - earthquake|flood|wildfire|fire|erdbeben|überschwemmung|waldbrand
+- regex: postcode
+  examples: |
+    - \b1[0-4]\d{3}\b

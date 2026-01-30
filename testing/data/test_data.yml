@@ -1,0 +1,184 @@
+version: "3.1"
+nlu:
+- intent: share_gps_location
+  examples: |
+    - use my current location
+    - sending my location
+- intent: request_location_help
+  examples: |
+    - list the districts
+- intent: inform_status
+  examples: |
+    - unfortunately [injured](injury_status)
+    - currently [injured](injury_status)
+- intent: request_safety_instructions
+  examples: |
+    - safety tips
+- intent: deny
+  examples: |
+    - that's wrong
+    - wrong
+- intent: inform_emergency_type
+  examples: |
+    - the emergency is [earthquake](emergency_type)
+    - there's a [wildfire](emergency_type)
+- intent: request_human_help
+  examples: |
+    - connect me to someone
+    - transfer to human
+- intent: request_emergency_contacts
+  examples: |
+    - fire department number
+- intent: request_shelter_info
+  examples: |
+    - where should i evacuate
+    - where can i go
+- intent: out_of_scope
+  examples: |
+    - tell me a joke
+    - book a hotel
+- intent: goodbye
+  examples: |
+    - thanks
+    - goodbye
+    - that's all
+- intent: affirm
+  examples: |
+    - yes
+    - of course
+- intent: report_trapped
+  examples: |
+    - surrounded by fire
+    - i am trapped
+    - stuck under debris
+    - can't move
+- intent: greet
+  examples: |
+    - emergency
+    - hello
+    - help me
+- intent: report_wildfire
+  examples: |
+    - there's a fire
+    - fire spreading
+    - the forest is on fire
+    - wildfire approaching
+- intent: report_safe
+  examples: |
+    - all good
+    - no injuries
+    - i am not injured
+- intent: report_injured
+  examples: |
+    - i am injured
+    - i'm bleeding
+    - i'm hurt
+    - broken leg
+- intent: report_earthquake
+  examples: |
+    - the ground is shaking
+    - seismic activity
+    - earthquake just happened
+    - quake
+- intent: report_flood
+  examples: |
+    - my street is flooded
+    - there's a flood warning
+    - the river is flooding
+- intent: inform_location
+  examples: |
+    - i'm at [Schöneberg](district)
+    - [Kreuzberg](district)
+    - currently in [Prenzlauer Berg](district)
+    - i am in [Prenzlauer Berg](district)
+    - [Köpenick](district)
+    - [10243](postcode)
+    - located in [Mitte](district)
+    - [Spandau](district)
+    - [schoneberg](district)
+- synonym: Mitte
+  examples: |
+    - mitte
+    - mitt
+    - center
+    - central
+    - zentrum
+- synonym: Kreuzberg
+  examples: |
+    - kreuzberg
+    - kreuz
+    - xberg
+    - x-berg
+- synonym: Prenzlauer Berg
+  examples: |
+    - prenzlauer berg
+    - prenzlauer
+    - prenzl
+    - prenz
+    - prenzlauerberg
+- synonym: Charlottenburg
+  examples: |
+    - charlottenburg
+    - charlotten
+    - charlott
+    - charlottenberg
+- synonym: Friedrichshain
+  examples: |
+    - friedrichshain
+    - friedrichhain
+    - friedrichshan
+    - fhain
+- synonym: Schöneberg
+  examples: |
+    - schöneberg
+    - schoneberg
+    - schoeneberg
+    - schonberg
+- synonym: Neukölln
+  examples: |
+    - neukölln
+    - neukolln
+    - neukoelln
+    - neukölnn
+- synonym: Tempelhof
+  examples: |
+    - tempelhof
+    - tempel
+    - templehof
+- synonym: Steglitz
+  examples: |
+    - steglitz
+    - stegl
+    - stieglitz
+- synonym: Spandau
+  examples: |
+    - spandau
+    - spand
+    - spandow
+- synonym: Pankow
+  examples: |
+    - pankow
+    - pankov
+    - pank
+- synonym: Wedding
+  examples: |
+    - wedding
+    - wed
+- synonym: Lichtenberg
+  examples: |
+    - lichtenberg
+    - lichten
+- synonym: Marzahn
+  examples: |
+    - marzahn
+    - marz
+- synonym: Treptow
+  examples: |
+    - treptow
+    - trept
+- regex: emergency_type
+  examples: |
+    - earthquake|flood|wildfire|fire|erdbeben|überschwemmung|waldbrand
+- regex: postcode
+  examples: |
+    - \b1[0-4]\d{3}\b

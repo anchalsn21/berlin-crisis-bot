@@ -1,0 +1,12 @@
+# Rasa 3.6.13 (compatible with Python 3.9)
+rasa==3.6.13
+
+# Rasa SDK compatible with Rasa 3.6.13
+rasa-sdk==3.6.2
+
+# Pin SQLAlchemy to avoid deprecation warnings and memory issues
+sqlalchemy<2.0
+
+# Add other packages your actions need
+requests>=2.31.0,<3.0.0
+python-dateutil>=2.8.2

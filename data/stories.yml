@@ -1,0 +1,343 @@
+# Berlin Crisis Response Chatbot - Simplified Stories
+# STRICT LINEAR FLOWS - Academic/Beginner Appropriate
+# Each emergency type follows a fixed step-by-step sequence
+
+version: "3.1"
+
+stories:
+
+# ============================================================================
+# STEP 1: EMERGENCY TYPE (MANDATORY FIRST STEP)
+# ============================================================================
+
+- story: greet and ask emergency type
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - action: action_handle_greet
+
+- story: user provides emergency type - earthquake
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_ask_status
+
+- story: user provides emergency type - flood
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+
+- story: user provides emergency type - fire
+  steps:
+    - intent: report_fire
+    - action: utter_acknowledge_fire
+    - action: utter_ask_location
+
+# ============================================================================
+# EARTHQUAKE FLOW (STRICT ORDER: Instructions → Status → Location → Shelters)
+# ============================================================================
+
+- story: earthquake - safe - complete flow
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_find_nearest_shelters
+    - action: utter_anything_else
+
+- story: earthquake - injured - escalation
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_ask_status
+    - intent: report_injured
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+
+- story: earthquake - trapped - escalation
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_ask_status
+    - intent: report_trapped
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+
+- story: earthquake - invalid location - retry
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: false
+    # Note: action_validate_location already sends invalid location message via _handle_invalid_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_find_nearest_shelters
+    - action: utter_anything_else
+
+# ============================================================================
+# FLOOD FLOW (STRICT ORDER: Location → Instructions → Status → Shelters)
+# ============================================================================
+
+- story: flood - safe - complete flow
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_anything_else
+
+- story: flood - injured - escalation
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_injured
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+
+- story: flood - trapped - escalation
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_trapped
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+
+- story: flood - invalid location - retry
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: false
+    # Note: action_validate_location already sends invalid location message via _handle_invalid_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_anything_else
+
+# ============================================================================
+# FIRE FLOW (STRICT ORDER: Location → Instructions → Status → Shelters)
+# ============================================================================
+
+- story: fire - safe - complete flow
+  steps:
+    - intent: report_fire
+    - action: utter_acknowledge_fire
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_anything_else
+
+- story: fire - injured - escalation
+  steps:
+    - intent: report_fire
+    - action: utter_acknowledge_fire
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_injured
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+
+- story: fire - trapped - escalation
+  steps:
+    - intent: report_fire
+    - action: utter_acknowledge_fire
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_trapped
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+
+- story: fire - invalid location - retry
+  steps:
+    - intent: report_fire
+    - action: utter_acknowledge_fire
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: false
+    # Note: action_validate_location already sends invalid location message via _handle_invalid_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_anything_else
+
+# ============================================================================
+# FALLBACK HANDLING - Simple and Strict
+# ============================================================================
+
+- story: fallback - ask for emergency type
+  steps:
+    - intent: nlu_fallback
+    - action: utter_default_fallback
+
+- story: out of scope
+  steps:
+    - intent: out_of_scope
+    - action: utter_out_of_scope
+
+- story: goodbye
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye
+
+# ============================================================================
+# DIRECT REQUESTS (Simple handling)
+# ============================================================================
+
+- story: request emergency contacts
+  steps:
+    - intent: request_emergency_contacts
+    - action: utter_emergency_contacts
+
+- story: request shelter info - no emergency type
+  steps:
+    - intent: request_shelter_info
+    - action: utter_ask_emergency_type
+
+# ============================================================================
+# GPS LOCATION SHARING
+# ============================================================================
+
+- story: earthquake - GPS location sharing
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_ask_location
+    - intent: share_gps_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_find_nearest_shelters
+    - action: utter_anything_else
+
+- story: flood - GPS location sharing
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: share_gps_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_anything_else
+
+- story: fire - GPS location sharing
+  steps:
+    - intent: report_fire
+    - action: utter_acknowledge_fire
+    - action: utter_ask_location
+    - intent: share_gps_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: utter_anything_else

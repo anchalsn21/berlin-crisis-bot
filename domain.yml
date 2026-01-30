@@ -1,0 +1,440 @@
+# Berlin Crisis Response Chatbot - Domain Configuration
+# Defines all intents, entities, slots, responses, and actions
+
+version: "3.1"
+
+# ============================================================================
+# INTENTS - What the user might say
+# ============================================================================
+intents:
+  # Greeting and basic
+  - greet
+  - goodbye
+  - affirm
+  - deny
+
+  # Emergency type intents
+  - inform_emergency_type
+  - report_earthquake
+  - report_flood
+  - report_fire
+
+  # Location intents
+  - inform_location
+  - share_gps_location
+
+  # Status intents
+  - inform_status
+  - report_injured
+  - report_safe
+  - report_trapped
+
+  # Help and escalation
+  - request_emergency_contacts
+  - request_shelter_info
+  - request_emergency_type
+
+  # Fallback
+  - nlu_fallback
+  - out_of_scope
+
+# ============================================================================
+# ENTITIES - Information to extract from user messages
+# ============================================================================
+entities:
+  - emergency_type
+  - district
+  - postcode
+  - injury_status
+
+# ============================================================================
+# SLOTS - Conversation state storage
+# ============================================================================
+slots:
+
+  # Core emergency information
+  emergency_type:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: emergency_type
+      - type: from_intent
+        intent: report_earthquake
+        value: earthquake
+      - type: from_intent
+        intent: report_flood
+        value: flood
+      - type: from_intent
+        intent: report_fire
+        value: fire
+    influence_conversation: true
+
+  # Location information
+  district:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: district
+    influence_conversation: true
+
+  postcode:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: postcode
+    influence_conversation: false
+
+  location_coords:
+    type: any
+    mappings:
+      - type: custom
+    influence_conversation: false
+
+  # Retry counter for location validation
+  location_retry_count:
+    type: float
+    initial_value: 0
+    mappings:
+      - type: custom
+    influence_conversation: true
+
+  # User status
+  injury_status:
+    type: categorical
+    values:
+      - safe
+      - injured
+      - trapped
+      - unclear
+    mappings:
+      - type: from_entity
+        entity: injury_status
+      - type: from_intent
+        intent: report_injured
+        value: injured
+      - type: from_intent
+        intent: report_safe
+        value: safe
+      - type: from_intent
+        intent: report_trapped
+        value: trapped
+    influence_conversation: true
+
+  # Conversation control
+  location_validated:
+    type: bool
+    mappings:
+      - type: custom
+    influence_conversation: true
+
+  escalation_required:
+    type: bool
+    mappings:
+      - type: custom
+    influence_conversation: true
+
+  instructions_provided:
+    type: bool
+    mappings:
+      - type: custom
+    influence_conversation: true
+
+  shelters_shown:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: custom
+    influence_conversation: true
+
+  # Status tracking
+  status_asked:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: custom
+    influence_conversation: true
+
+# ============================================================================
+# RESPONSES - Bot messages
+# ============================================================================
+responses:
+  # Greeting
+  utter_greet:
+    - text: |
+        Hello! 👋
+
+        I'm the Berlin Emergency Crisis Response Bot. I'm here to help you during emergencies.
+
+  # Emergency acknowledgments
+  utter_acknowledge_earthquake:
+    - text: "🏗️ **EARTHQUAKE EMERGENCY DETECTED**"
+
+  utter_acknowledge_flood:
+    - text: |
+        🌊 **FLOOD EMERGENCY DETECTED**
+
+        I need to know your location in Berlin.
+
+  utter_acknowledge_fire:
+    - text: |
+        🔥 **FIRE EMERGENCY DETECTED**
+
+        I need to know your location in Berlin.
+
+  # Location prompts
+  utter_ask_location:
+    - text: |
+        📍 **I need to know your location in Berlin.**
+
+        **Please provide:**
+        • Your **Berlin district** (e.g., Mitte, Kreuzberg, Charlottenburg)
+        • Or your **postcode** (e.g., 10115, 10961, 10585)
+        • Or use the **"Share GPS Location"** button if available
+      buttons:
+        - title: "📍 Mitte"
+          payload: "Mitte"
+        - title: "📍 Kreuzberg"
+          payload: "Kreuzberg"
+        - title: "📍 Charlottenburg"
+          payload: "Charlottenburg"
+        - title: "📍 Prenzlauer Berg"
+          payload: "Prenzlauer Berg"
+        - title: "📍 Neukölln"
+          payload: "Neukölln"
+        - title: "📍 Pankow"
+          payload: "Pankow"
+        - title: "📍 Friedrichshain"
+          payload: "Friedrichshain"
+        - title: "📍 Schöneberg"
+          payload: "Schöneberg"
+        - title: "📍 Wedding"
+          payload: "Wedding"
+        - title: "📍 Lichtenberg"
+          payload: "Lichtenberg"
+        - title: "📍 Steglitz"
+          payload: "Steglitz"
+        - title: "📍 Tempelhof"
+          payload: "Tempelhof"
+        - title: "📍 Spandau"
+          payload: "Spandau"
+        - title: "📍 Marzahn"
+          payload: "Marzahn"
+        - title: "📍 Treptow"
+          payload: "Treptow"
+        - title: "📍 Reinickendorf"
+          payload: "Reinickendorf"
+        - title: "📍 Hellersdorf"
+          payload: "Hellersdorf"
+        - title: "📍 Wilmersdorf"
+          payload: "Wilmersdorf"
+        - title: "📍 Zehlendorf"
+          payload: "Zehlendorf"
+        - title: "📍 Köpenick"
+          payload: "Köpenick"
+
+  utter_location_invalid:
+    - text: |
+        ⚠️ **I couldn't recognize that location.**
+
+        Please provide your Berlin district (e.g., Mitte, Kreuzberg) or postcode (e.g., 10115).
+      buttons:
+        - title: "📍 Mitte"
+          payload: "Mitte"
+        - title: "📍 Kreuzberg"
+          payload: "Kreuzberg"
+        - title: "📍 Charlottenburg"
+          payload: "Charlottenburg"
+        - title: "📍 Prenzlauer Berg"
+          payload: "Prenzlauer Berg"
+        - title: "📍 Neukölln"
+          payload: "Neukölln"
+        - title: "📍 Pankow"
+          payload: "Pankow"
+        - title: "📍 Friedrichshain"
+          payload: "Friedrichshain"
+        - title: "📍 Schöneberg"
+          payload: "Schöneberg"
+        - title: "📍 Wedding"
+          payload: "Wedding"
+        - title: "📍 Lichtenberg"
+          payload: "Lichtenberg"
+        - title: "📍 Steglitz"
+          payload: "Steglitz"
+        - title: "📍 Tempelhof"
+          payload: "Tempelhof"
+        - title: "📍 Spandau"
+          payload: "Spandau"
+        - title: "📍 Marzahn"
+          payload: "Marzahn"
+        - title: "📍 Treptow"
+          payload: "Treptow"
+        - title: "📍 Reinickendorf"
+          payload: "Reinickendorf"
+        - title: "📍 Hellersdorf"
+          payload: "Hellersdorf"
+        - title: "📍 Wilmersdorf"
+          payload: "Wilmersdorf"
+        - title: "📍 Zehlendorf"
+          payload: "Zehlendorf"
+        - title: "📍 Köpenick"
+          payload: "Köpenick"
+
+
+  # Status prompts
+  utter_ask_status:
+    - text: |
+        **Are you injured or in immediate danger?**
+      buttons:
+        - title: "✅ I'm safe"
+          payload: "I'm safe"
+        - title: "🤕 I'm injured"
+          payload: "I'm injured"
+        - title: "🆘 I'm trapped"
+          payload: "I'm trapped"
+
+  # Safe response
+  utter_safe_response:
+    - text: |
+        ✅ **Good, you're safe!**
+
+        Please follow the safety instructions provided above. Call **112** if your situation changes.
+
+  # Injured response (escalation)
+  utter_injured_response:
+    - text: |
+        🚨 **CRITICAL SITUATION DETECTED**
+
+        Your situation requires immediate professional assistance.
+
+        **IMMEDIATE ACTION REQUIRED:**
+        • Call emergency services: **112** NOW
+        • Do not attempt to move if injured
+        • Stay where you are if safe to do so
+        • Provide your location to emergency operators
+
+        **Emergency Services (Germany):**
+        • **112** - Emergency (Fire, Ambulance, Police)
+        • **110** - Police (Non-Emergency)
+        • **+49 30 600 300** - German Red Cross Berlin
+
+        Stay on the line with emergency services and follow their instructions.
+
+  # Trapped response (critical escalation)
+  utter_trapped_response:
+    - text: |
+        🆘 **CRITICAL: YOU ARE TRAPPED**
+
+        Help is on the way. Please stay calm and follow these instructions:
+
+        **IMMEDIATE ACTIONS:**
+        1. Call **112** immediately if you haven't already
+        2. Make noise to help rescuers find you (tap on pipes, walls)
+        3. Cover your nose and mouth with cloth to filter dust/smoke
+        4. Conserve your phone battery
+        5. Stay as still as possible to avoid further injury
+
+        **Your Information Has Been Logged:**
+        • Location: {district}
+        • Emergency Type: {emergency_type}
+        • Status: TRAPPED - REQUIRES RESCUE
+
+        Emergency services have been notified.
+
+  # Fallback responses
+  utter_default_fallback:
+    - text: |
+        🤔 **I didn't quite understand that.**
+
+        Please tell me what type of emergency you're experiencing:
+
+        🏗️ **Earthquake**
+        🌊 **Flood**
+        🔥 **Fire**
+
+        ⚠️ **If this is life-threatening, please call 112 immediately!**
+      buttons:
+        - title: "🏗️ Earthquake"
+          payload: "/report_earthquake"
+        - title: "🌊 Flood"
+          payload: "/report_flood"
+        - title: "🔥 Fire"
+          payload: "/report_fire"
+
+  utter_ask_emergency_type:
+    - text: |
+        What type of emergency are you experiencing?
+
+        🏗️ **Earthquake**
+        🌊 **Flood**
+        🔥 **Fire**
+
+        ⚠️ **If this is life-threatening, please call 112 immediately!**
+      buttons:
+        - title: "🏗️ Earthquake"
+          payload: "/report_earthquake"
+        - title: "🌊 Flood"
+          payload: "/report_flood"
+        - title: "🔥 Fire"
+          payload: "/report_fire"
+
+  utter_out_of_scope:
+    - text: |
+        I'm specifically designed to help with **earthquake, flood, and fire** emergencies in Berlin.
+
+        If you're experiencing a different emergency, please call **112** immediately.
+
+        Is there a crisis I can help you with?
+      buttons:
+        - title: "🏗️ Earthquake"
+          payload: "/report_earthquake"
+        - title: "🌊 Flood"
+          payload: "/report_flood"
+        - title: "🔥 Fire"
+          payload: "/report_fire"
+
+  utter_goodbye:
+    - text: |
+        Stay safe! If your situation changes, please don't hesitate to reach out again or call **112**.
+
+        Take care! 💙
+
+  utter_emergency_contacts:
+    - text: |
+        📞 **Emergency Contacts (Germany/Berlin):**
+
+        • **112** - Emergency Services (Fire, Ambulance, Police)
+        • **110** - Police (Non-Emergency)
+        • **+49 30 600 300** - German Red Cross Berlin
+        • **+49 30 19240** - Poison Control Center
+        • **+49 30 19222** - Medical On-Call Service
+
+  utter_anything_else:
+    - text: |
+        Is there anything else I can help you with?
+      buttons:
+        - title: "📞 Emergency Contacts"
+          payload: "/request_emergency_contacts"
+        - title: "✅ I'm all set"
+          payload: "/goodbye"
+
+
+# ============================================================================
+# ACTIONS - Custom actions for dynamic responses
+# ============================================================================
+actions:
+  - action_validate_location
+  - action_provide_safety_instructions
+  - action_provide_earthquake_instructions_immediate
+  - action_find_nearest_shelters
+  - action_assess_status
+  - action_ask_status
+  - action_escalate_emergency
+  - action_session_start
+  - action_handle_greet
+
+# ============================================================================
+# SESSION CONFIGURATION
+# ============================================================================
+session_config:
+  session_expiration_time: 60  # 60 minutes
+  carry_over_slots_to_new_session: true

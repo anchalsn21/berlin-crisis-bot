@@ -1,0 +1,72 @@
+# Berlin Crisis Response Chatbot - Rasa Configuration
+# Uses transformer-based pipeline for high accuracy NLU
+
+recipe: default.v1
+language: en
+
+# NLU Pipeline with Transformer (DistilBERT for faster inference)
+pipeline:
+  # Tokenization
+- name: WhitespaceTokenizer
+
+  # Feature extraction
+- name: RegexFeaturizer
+
+- name: LexicalSyntacticFeaturizer
+
+- name: CountVectorsFeaturizer
+
+- name: CountVectorsFeaturizer
+  analyzer: char_wb
+  min_ngram: 1
+  max_ngram: 4
+
+  # Entity extraction with DIET
+- name: DIETClassifier
+  epochs: 100
+  constrain_similarities: true
+  entity_recognition: true
+
+  # Regex entity extraction for postcodes
+- name: RegexEntityExtractor
+
+  # Synonym mapping for district variations
+- name: EntitySynonymMapper
+
+  # Fallback classifier for low confidence - HIGHER THRESHOLD to reduce false fallbacks
+- name: FallbackClassifier
+  threshold: 0.8
+  ambiguity_threshold: 0.1
+
+# Dialogue Policies
+policies:
+  # Rule-based policy for deterministic paths - HIGHEST priority for emergency flows
+- name: RulePolicy
+  priority: 6
+  core_fallback_threshold: 0.6  # HIGHER threshold to reduce false fallbacks
+  enable_fallback_prediction: false  # DISABLE fallback prediction to prevent duplicates
+
+  # Memoization for exact story matches
+- name: MemoizationPolicy
+  priority: 5
+  max_history: 8
+
+  # TED for generalization - LOWER PRIORITY
+- name: TEDPolicy
+  priority: 1
+  max_history: 10
+  epochs: 100
+  constrain_similarities: true
+
+  # Unexpected intent policy - LOWEST PRIORITY
+- name: UnexpecTEDIntentPolicy
+  priority: 0
+  max_history: 8
+  epochs: 100
+
+assistant_id: 20260103-054151-atomic-forte
+
+# Use SQLite tracker store for persistent sessions
+tracker_store:
+  type: SQLiteTrackerStore
+  url: tracker.db

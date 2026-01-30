@@ -1,0 +1,337 @@
+# Comprehensive Test Cases for Berlin Crisis Response Chatbot
+# Tests all emergency types with happy, average, and worst case scenarios
+
+version: "3.1"
+
+stories:
+# ============================================================================
+# EARTHQUAKE TESTS
+# ============================================================================
+
+# HAPPY CASE: User reports earthquake, is safe, provides location, gets shelters
+- story: test_earthquake_happy_safe
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_adaptive_status_assessment
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: action_ask_location_for_shelter
+    - intent: inform_location
+    - action: action_validate_location
+    - action: action_find_nearest_shelters
+
+# AVERAGE CASE: User reports earthquake, is safe, provides invalid location first
+- story: test_earthquake_average_invalid_location
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_adaptive_status_assessment
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+    - action: action_ask_location_for_shelter
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: false
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_find_nearest_shelters
+
+# WORST CASE: User reports earthquake, is injured, needs immediate escalation
+- story: test_earthquake_worst_injured
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_adaptive_status_assessment
+    - intent: report_injured
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+
+# WORST CASE: User reports earthquake, is trapped
+- story: test_earthquake_worst_trapped
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_adaptive_status_assessment
+    - intent: report_trapped
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+
+# AVERAGE CASE: User reports earthquake, doesn't respond to status question
+- story: test_earthquake_average_no_status_response
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_adaptive_status_assessment
+    - intent: nlu_fallback
+    - action: action_default_fallback
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+
+# ============================================================================
+# FLOOD TESTS
+# ============================================================================
+
+# HAPPY CASE: User reports flood, provides location, is safe
+- story: test_flood_happy_safe
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+      entities:
+        - district: "Charlottenburg"
+    - action: action_validate_location
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_adaptive_status_assessment
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+
+# AVERAGE CASE: User reports flood, provides invalid location, then corrects
+- story: test_flood_average_location_correction
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: false
+    - intent: inform_location
+      entities:
+        - district: "Mitte"
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+
+# WORST CASE: User reports flood, is injured
+- story: test_flood_worst_injured
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+      entities:
+        - district: "Kreuzberg"
+    - action: action_validate_location
+    - action: action_provide_safety_instructions
+    - action: action_adaptive_status_assessment
+    - intent: report_injured
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+
+# WORST CASE: User reports flood, is trapped
+- story: test_flood_worst_trapped
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+      entities:
+        - district: "Prenzlauer Berg"
+    - action: action_validate_location
+    - action: action_provide_safety_instructions
+    - action: action_adaptive_status_assessment
+    - intent: report_trapped
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+
+# AVERAGE CASE: User reports flood, provides postcode instead of district
+- story: test_flood_average_postcode
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+      entities:
+        - postcode: "10115"
+    - action: action_validate_location
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+
+# ============================================================================
+# WILDFIRE TESTS
+# ============================================================================
+
+# HAPPY CASE: User reports wildfire, provides location, is safe
+- story: test_wildfire_happy_safe
+  steps:
+    - intent: report_wildfire
+    - action: utter_acknowledge_wildfire
+    - action: utter_ask_location
+    - intent: inform_location
+      entities:
+        - district: "Friedrichshain"
+    - action: action_validate_location
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_adaptive_status_assessment
+    - intent: report_safe
+    - action: action_assess_status
+    - action: utter_safe_response
+
+# AVERAGE CASE: User reports wildfire, provides location with typo
+- story: test_wildfire_average_typo
+  steps:
+    - intent: report_wildfire
+    - action: utter_acknowledge_wildfire
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: false
+    - intent: inform_location
+      entities:
+        - district: "Schöneberg"
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+
+# WORST CASE: User reports wildfire, is injured
+- story: test_wildfire_worst_injured
+  steps:
+    - intent: report_wildfire
+    - action: utter_acknowledge_wildfire
+    - action: utter_ask_location
+    - intent: inform_location
+      entities:
+        - district: "Neukölln"
+    - action: action_validate_location
+    - action: action_provide_safety_instructions
+    - action: action_adaptive_status_assessment
+    - intent: report_injured
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+
+# WORST CASE: User reports wildfire, is trapped
+- story: test_wildfire_worst_trapped
+  steps:
+    - intent: report_wildfire
+    - action: utter_acknowledge_wildfire
+    - action: utter_ask_location
+    - intent: inform_location
+      entities:
+        - district: "Wedding"
+    - action: action_validate_location
+    - action: action_provide_safety_instructions
+    - action: action_adaptive_status_assessment
+    - intent: report_trapped
+    - action: action_assess_status
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+
+# AVERAGE CASE: User reports fire (synonym for wildfire)
+- story: test_wildfire_average_synonym
+  steps:
+    - intent: report_wildfire
+    - action: utter_acknowledge_wildfire
+    - action: utter_ask_location
+    - intent: inform_location
+      entities:
+        - district: "Tempelhof"
+    - action: action_validate_location
+    - action: action_provide_safety_instructions
+
+# ============================================================================
+# INTERRUPTION & RECOVERY TESTS
+# ============================================================================
+
+# User interrupts to ask for emergency contacts
+- story: test_interrupt_emergency_contacts
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - intent: request_emergency_contacts
+    - action: utter_emergency_contacts
+    - action: action_provide_earthquake_instructions_immediate
+
+# User interrupts to ask for shelter info
+- story: test_interrupt_shelter_info
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - intent: request_shelter_info
+    - action: action_find_nearest_shelters
+    - action: utter_ask_location
+
+# User changes emergency type mid-conversation
+- story: test_emergency_type_change
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+
+# ============================================================================
+# EDGE CASES
+# ============================================================================
+
+# User provides location before emergency type
+- story: test_location_before_emergency
+  steps:
+    - intent: inform_location
+      entities:
+        - district: "Mitte"
+    - action: action_validate_location
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+
+# User says goodbye mid-conversation
+- story: test_goodbye_interrupt
+  steps:
+    - intent: report_flood
+    - action: utter_acknowledge_flood
+    - intent: goodbye
+    - action: utter_goodbye
+
+# User provides unclear status
+- story: test_unclear_status
+  steps:
+    - intent: report_earthquake
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
+    - action: action_adaptive_status_assessment
+    - intent: nlu_fallback
+    - action: action_default_fallback
+    - intent: report_safe
+    - action: action_assess_status
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

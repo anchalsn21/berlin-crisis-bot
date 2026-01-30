@@ -1,0 +1,316 @@
+# Berlin Crisis Response Chatbot - NLU Training Data
+# Comprehensive examples for intent classification and entity extraction
+
+version: "3.1"
+
+nlu:
+# ============================================================================
+# GREETING INTENTS
+# ============================================================================
+- intent: greet
+  examples: |
+    - hello
+    - hi
+    - hey
+    - good morning
+    - good evening
+    - hallo
+    - start
+    - begin
+    - help
+    - help me
+    - i need help
+    - emergency
+    - can you help me
+
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you
+    - thank you
+    - thanks
+    - that's all
+    - i'm done
+    - exit
+    - tschüss
+    - danke
+
+- intent: affirm
+  examples: |
+    - yes
+    - yeah
+    - correct
+    - right
+    - sure
+    - ja
+    - ok
+    - okay
+    - alright
+    - got it
+    - understood
+
+- intent: deny
+  examples: |
+    - no
+    - nope
+    - wrong
+    - incorrect
+    - nein
+    - no thanks
+
+# ============================================================================
+# EMERGENCY TYPE INTENTS
+# ============================================================================
+- intent: report_earthquake
+  examples: |
+    - earthquake
+    - there's an earthquake
+    - we have an earthquake
+    - the ground is shaking
+    - everything is shaking
+    - erdbeben
+    - it's an earthquake
+    - earthquake emergency
+    - earthquake!
+    - quake
+    - building is shaking
+    - there was an earthquake
+
+- intent: report_flood
+  examples: |
+    - flood
+    - there's flooding
+    - flooding in my area
+    - water is rising
+    - my street is flooded
+    - water everywhere
+    - überschwemmung
+    - hochwasser
+    - flood emergency
+    - flash flood
+    - the river is flooding
+    - water is coming in
+    - flood!
+    - flooding
+
+- intent: report_fire
+  examples: |
+    - fire
+    - there's a fire
+    - forest fire
+    - fire in the area
+    - smoke everywhere
+    - i can see flames
+    - waldbrand
+    - feuer
+    - fire emergency
+    - bush fire
+    - the forest is on fire
+    - fire spreading
+    - fire!
+    - wildfire
+    - there's a wildfire
+
+- intent: inform_emergency_type
+  examples: |
+    - there's a [fire](emergency_type)
+    - experiencing [earthquake](emergency_type)
+    - we have a [flood](emergency_type)
+    - [fire](emergency_type) in the area
+    - the emergency is [earthquake](emergency_type)
+    - this is about [flood](emergency_type)
+    - [earthquake](emergency_type) situation
+
+# ============================================================================
+# LOCATION INTENTS
+# ============================================================================
+- intent: inform_location
+  examples: |
+    - i'm in [Mitte](district)
+    - [Kreuzberg](district)
+    - my location is [Mitte](district)
+    - i am located in [Kreuzberg](district)
+    - i'm at [Prenzlauer Berg](district)
+    - [Mitte](district)
+    - [Kreuzberg](district)
+    - [Charlottenburg](district)
+    - [Neukölln](district)
+    - [Pankow](district)
+    - Mitte
+    - Kreuzberg
+    - Charlottenburg
+    - Prenzlauer Berg
+    - Neukölln
+    - Pankow
+    - [10115](postcode)
+    - [10961](postcode)
+    - [10437](postcode)
+    - [10587](postcode)
+    - my postcode is [10115](postcode)
+    - postcode [10961](postcode)
+
+- intent: share_gps_location
+  examples: |
+    - here's my location
+    - sharing my gps
+    - use my current location
+    - sending my location
+
+
+# ============================================================================
+# STATUS INTENTS
+# ============================================================================
+- intent: report_safe
+  examples: |
+    - i'm safe
+    - i am safe
+    - we are safe
+    - everyone is safe
+    - i'm not injured
+    - no injuries
+    - not hurt
+    - i'm okay
+    - i'm fine
+    - we're fine
+    - all good
+    - no one is hurt
+    - everyone is okay
+    - safe and sound
+    - i'm not in danger
+    - we're all safe
+
+- intent: report_injured
+  examples: |
+    - i'm injured
+    - i am injured
+    - someone is hurt
+    - we have injuries
+    - i'm bleeding
+    - i got hurt
+    - people are injured
+    - i need medical help
+    - i'm hurt
+    - wounded
+    - broken leg
+    - broken arm
+    - can't walk
+    - severe pain
+
+- intent: report_trapped
+  examples: |
+    - i'm trapped
+    - i am trapped
+    - we are trapped
+    - can't get out
+    - stuck under debris
+    - can't move
+    - trapped under rubble
+    - we're stuck
+    - no way out
+    - blocked exit
+    - can't escape
+    - trapped in building
+    - stuck in my apartment
+    - door is blocked
+
+- intent: inform_status
+  examples: |
+    - my status is [safe](injury_status)
+    - status: [safe](injury_status)
+    - currently [safe](injury_status)
+
+# ============================================================================
+# HELP AND INFORMATION REQUESTS
+# ============================================================================
+
+- intent: request_emergency_contacts
+  examples: |
+    - what's the emergency number
+    - give me emergency contacts
+    - who do i call
+    - emergency numbers
+    - police number
+    - ambulance number
+    - fire department number
+    - show me contacts
+    - emergency hotline
+
+- intent: request_emergency_type
+  examples: |
+    - report emergency
+    - i want to report an emergency
+    - new emergency
+    - report another emergency
+
+- intent: request_shelter_info
+  examples: |
+    - where can i go
+    - show me shelters
+    - nearest shelter
+    - where are the shelters
+    - evacuation centers
+    - where should i evacuate
+    - safe places nearby
+    - shelter locations
+    - emergency shelters
+    - find shelter
+
+# ============================================================================
+# OUT OF SCOPE
+# ============================================================================
+- intent: out_of_scope
+  examples: |
+    - what's the weather
+    - tell me a joke
+    - who are you
+    - what can you do
+    - play music
+    - what time is it
+    - order pizza
+    - book a hotel
+
+# ============================================================================
+# ENTITY SYNONYMS - Common variations only
+# ============================================================================
+- synonym: Mitte
+  examples: |
+    - mitte
+    - mitt
+
+- synonym: Kreuzberg
+  examples: |
+    - kreuzberg
+    - kreuz
+
+- synonym: Prenzlauer Berg
+  examples: |
+    - prenzlauer berg
+    - prenzlauer
+
+- synonym: Charlottenburg
+  examples: |
+    - charlottenburg
+    - charlotten
+
+- synonym: Neukölln
+  examples: |
+    - neukölln
+    - neukolln
+
+- synonym: Pankow
+  examples: |
+    - pankow
+    - pank
+
+# ============================================================================
+# REGEX PATTERNS
+# ============================================================================
+- regex: postcode
+  examples: |
+    - \b1[0-4]\d{3}\b
+
+- regex: emergency_type
+  examples: |
+    - earthquake|flood|fire|wildfire|erdbeben|überschwemmung|waldbrand|feuer
+

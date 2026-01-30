@@ -1,0 +1,319 @@
+{
+  "shelters": {
+    "Mitte": [
+      {
+        "name": "Berlin-Mitte Emergency Shelter",
+        "address": "Alexanderstraße 5, 10178 Berlin",
+        "phone": "+49 30 2400-0",
+        "capacity": 500,
+        "facilities": ["Medical Care", "Food", "Water", "Restrooms", "Wheelchair Access"],
+        "coordinates": {"lat": 52.5219, "lng": 13.4132}
+      },
+      {
+        "name": "Rathaus Mitte Community Center",
+        "address": "Karl-Marx-Allee 31, 10178 Berlin",
+        "phone": "+49 30 9018-0",
+        "capacity": 300,
+        "facilities": ["First Aid", "Blankets", "Charging Stations", "Child Care"],
+        "coordinates": {"lat": 52.5177, "lng": 13.4274}
+      }
+    ],
+    "Kreuzberg": [
+      {
+        "name": "Kreuzberg Community Emergency Center",
+        "address": "Yorckstraße 4-11, 10965 Berlin",
+        "phone": "+49 30 6809-0",
+        "capacity": 400,
+        "facilities": ["Medical Care", "Food", "Water", "Pet Shelter"],
+        "coordinates": {"lat": 52.4892, "lng": 13.3850}
+      },
+      {
+        "name": "Viktoriapark Emergency Station",
+        "address": "Kreuzbergstraße 78, 10965 Berlin",
+        "phone": "+49 30 2588-0",
+        "capacity": 250,
+        "facilities": ["First Aid", "Blankets", "Wheelchair Access"],
+        "coordinates": {"lat": 52.4880, "lng": 13.3796}
+      }
+    ],
+    "Prenzlauer Berg": [
+      {
+        "name": "Prenzlauer Berg Civic Center",
+        "address": "Fröbelstraße 17, 10405 Berlin",
+        "phone": "+49 30 4250-0",
+        "capacity": 350,
+        "facilities": ["Medical Care", "Food", "Water", "Restrooms"],
+        "coordinates": {"lat": 52.5314, "lng": 13.4168}
+      },
+      {
+        "name": "Kollwitzkiez Emergency Shelter",
+        "address": "Kollwitzstraße 66, 10435 Berlin",
+        "phone": "+49 30 4432-0",
+        "capacity": 200,
+        "facilities": ["First Aid", "Charging Stations", "Child Care"],
+        "coordinates": {"lat": 52.5339, "lng": 13.4145}
+      }
+    ],
+    "Charlottenburg": [
+      {
+        "name": "Charlottenburg-Wilmersdorf City Hall Shelter",
+        "address": "Otto-Suhr-Allee 100, 10585 Berlin",
+        "phone": "+49 30 9029-0",
+        "capacity": 600,
+        "facilities": ["Medical Care", "Food", "Water", "Pet Shelter", "Wheelchair Access"],
+        "coordinates": {"lat": 52.5163, "lng": 13.3037}
+      },
+      {
+        "name": "ICC Berlin Emergency Center",
+        "address": "Messedamm 22, 14055 Berlin",
+        "phone": "+49 30 3038-0",
+        "capacity": 1000,
+        "facilities": ["Medical Care", "Food", "Water", "Restrooms", "Large Capacity"],
+        "coordinates": {"lat": 52.5008, "lng": 13.2688}
+      }
+    ],
+    "Friedrichshain": [
+      {
+        "name": "Friedrichshain Community Center",
+        "address": "Frankfurter Allee 35-37, 10247 Berlin",
+        "phone": "+49 30 4226-0",
+        "capacity": 300,
+        "facilities": ["Medical Care", "Food", "Water", "Child Care"],
+        "coordinates": {"lat": 52.5136, "lng": 13.4581}
+      },
+      {
+        "name": "Boxhagener Platz Emergency Station",
+        "address": "Boxhagener Straße 89, 10245 Berlin",
+        "phone": "+49 30 2904-0",
+        "capacity": 200,
+        "facilities": ["First Aid", "Blankets", "Charging Stations"],
+        "coordinates": {"lat": 52.5100, "lng": 13.4610}
+      }
+    ],
+    "Schöneberg": [
+      {
+        "name": "Schöneberg Civic Center",
+        "address": "John-F.-Kennedy-Platz, 10825 Berlin",
+        "phone": "+49 30 7560-0",
+        "capacity": 400,
+        "facilities": ["Medical Care", "Food", "Water", "Restrooms", "Wheelchair Access"],
+        "coordinates": {"lat": 52.4841, "lng": 13.3418}
+      },
+      {
+        "name": "Nollendorfplatz Emergency Shelter",
+        "address": "Nollendorfstraße 15, 10777 Berlin",
+        "phone": "+49 30 2139-0",
+        "capacity": 250,
+        "facilities": ["First Aid", "Blankets", "Pet Shelter"],
+        "coordinates": {"lat": 52.4975, "lng": 13.3536}
+      }
+    ],
+    "Neukölln": [
+      {
+        "name": "Neukölln Town Hall Shelter",
+        "address": "Karl-Marx-Straße 83, 12040 Berlin",
+        "phone": "+49 30 6809-0",
+        "capacity": 450,
+        "facilities": ["Medical Care", "Food", "Water", "Child Care"],
+        "coordinates": {"lat": 52.4793, "lng": 13.4348}
+      },
+      {
+        "name": "Tempelhofer Feld Emergency Center",
+        "address": "Tempelhofer Damm 1, 12101 Berlin",
+        "phone": "+49 30 7009-0",
+        "capacity": 800,
+        "facilities": ["Medical Care", "Food", "Water", "Large Capacity", "Pet Shelter"],
+        "coordinates": {"lat": 52.4731, "lng": 13.4033}
+      }
+    ],
+    "Tempelhof": [
+      {
+        "name": "Tempelhof Airport Shelter",
+        "address": "Platz der Luftbrücke 5, 12101 Berlin",
+        "phone": "+49 30 7560-0",
+        "capacity": 1500,
+        "facilities": ["Medical Care", "Food", "Water", "Large Capacity", "Wheelchair Access"],
+        "coordinates": {"lat": 52.4731, "lng": 13.3891}
+      }
+    ],
+    "Steglitz": [
+      {
+        "name": "Steglitz Civic Center",
+        "address": "Schloßstraße 37, 12163 Berlin",
+        "phone": "+49 30 7960-0",
+        "capacity": 350,
+        "facilities": ["Medical Care", "Food", "Water", "Restrooms"],
+        "coordinates": {"lat": 52.4587, "lng": 13.3195}
+      }
+    ],
+    "Spandau": [
+      {
+        "name": "Spandau Citadel Emergency Center",
+        "address": "Am Juliusturm 64, 13599 Berlin",
+        "phone": "+49 30 3339-0",
+        "capacity": 400,
+        "facilities": ["Medical Care", "Food", "Water", "Historic Site"],
+        "coordinates": {"lat": 52.5388, "lng": 13.2127}
+      }
+    ],
+    "Pankow": [
+      {
+        "name": "Pankow Town Hall Shelter",
+        "address": "Breite Straße 24A-26, 13187 Berlin",
+        "phone": "+49 30 9029-0",
+        "capacity": 300,
+        "facilities": ["Medical Care", "Food", "Water", "Child Care"],
+        "coordinates": {"lat": 52.5673, "lng": 13.4074}
+      }
+    ],
+    "Wedding": [
+      {
+        "name": "Wedding Community Center",
+        "address": "Müllerstraße 56-58, 13349 Berlin",
+        "phone": "+49 30 4500-0",
+        "capacity": 300,
+        "facilities": ["Medical Care", "Food", "Water", "Restrooms"],
+        "coordinates": {"lat": 52.5505, "lng": 13.3494}
+      }
+    ],
+    "Lichtenberg": [
+      {
+        "name": "Lichtenberg Civic Center",
+        "address": "Möllendorffstraße 6, 10367 Berlin",
+        "phone": "+49 30 9021-0",
+        "capacity": 350,
+        "facilities": ["Medical Care", "Food", "Water", "Wheelchair Access"],
+        "coordinates": {"lat": 52.5138, "lng": 13.4860}
+      }
+    ],
+    "Marzahn": [
+      {
+        "name": "Marzahn-Hellersdorf Emergency Center",
+        "address": "Alice-Salomon-Platz 3, 12627 Berlin",
+        "phone": "+49 30 9021-0",
+        "capacity": 500,
+        "facilities": ["Medical Care", "Food", "Water", "Large Capacity"],
+        "coordinates": {"lat": 52.5375, "lng": 13.6045}
+      }
+    ],
+    "Treptow": [
+      {
+        "name": "Treptow Park Emergency Station",
+        "address": "Am Treptower Park 1, 12435 Berlin",
+        "phone": "+49 30 5360-0",
+        "capacity": 250,
+        "facilities": ["First Aid", "Blankets", "Pet Shelter"],
+        "coordinates": {"lat": 52.4883, "lng": 13.4661}
+      }
+    ],
+    "Reinickendorf": [
+      {
+        "name": "Reinickendorf Civic Center",
+        "address": "Eichborndamm 215-239, 13437 Berlin",
+        "phone": "+49 30 9029-0",
+        "capacity": 400,
+        "facilities": ["Medical Care", "Food", "Water", "Child Care"],
+        "coordinates": {"lat": 52.5823, "lng": 13.3294}
+      }
+    ],
+    "Wilmersdorf": [
+      {
+        "name": "Wilmersdorf Town Hall",
+        "address": "Fehrbelliner Platz 4, 10707 Berlin",
+        "phone": "+49 30 9029-0",
+        "capacity": 350,
+        "facilities": ["Medical Care", "Food", "Water", "Restrooms"],
+        "coordinates": {"lat": 52.4878, "lng": 13.3140}
+      }
+    ],
+    "Köpenick": [
+      {
+        "name": "Köpenick Town Hall",
+        "address": "Alt-Köpenick 21, 12555 Berlin",
+        "phone": "+49 30 6409-0",
+        "capacity": 300,
+        "facilities": ["Medical Care", "Food", "Water", "Historic Site"],
+        "coordinates": {"lat": 52.4453, "lng": 13.5769}
+      }
+    ],
+    "Zehlendorf": [
+      {
+        "name": "Zehlendorf Civic Center",
+        "address": "Kirchstraße 1-3, 14163 Berlin",
+        "phone": "+49 30 9029-0",
+        "capacity": 250,
+        "facilities": ["Medical Care", "Food", "Water"],
+        "coordinates": {"lat": 52.4333, "lng": 13.2575}
+      }
+    ],
+    "Hellersdorf": [
+      {
+        "name": "Hellersdorf Community Center",
+        "address": "Riesaer Straße 94, 12627 Berlin",
+        "phone": "+49 30 9900-0",
+        "capacity": 350,
+        "facilities": ["Medical Care", "Food", "Water", "Child Care"],
+        "coordinates": {"lat": 52.5300, "lng": 13.6200}
+      }
+    ]
+  },
+  "emergency_contacts": {
+    "emergency": "112",
+    "police": "110",
+    "red_cross_berlin": "+49 30 600 300",
+    "poison_control": "+49 30 19240",
+    "medical_on_call": "+49 30 19222"
+  },
+  "safety_instructions": {
+    "earthquake": {
+      "during": [
+        "DROP to your hands and knees",
+        "Take COVER under a sturdy desk or table",
+        "HOLD ON until shaking stops",
+        "Stay away from windows, outside walls, and heavy objects",
+        "If outdoors, move to an open area away from buildings"
+      ],
+      "after": [
+        "Check yourself and others for injuries",
+        "Evacuate if building is damaged",
+        "Avoid using elevators",
+        "Be prepared for aftershocks",
+        "Check for gas leaks and electrical damage",
+        "Listen to official announcements"
+      ]
+    },
+    "flood": {
+      "during": [
+        "Move immediately to higher ground",
+        "Do NOT walk through flowing water",
+        "Do NOT drive through flooded areas",
+        "Stay away from streams and drainage channels",
+        "Turn off electricity at the main breaker if safe to do so"
+      ],
+      "after": [
+        "Return home only when authorities say it's safe",
+        "Clean and disinfect everything that got wet",
+        "Avoid floodwater - it may be contaminated",
+        "Document damage for insurance",
+        "Watch for weakened structures"
+      ]
+    },
+    "fire": {
+      "during": [
+        "Evacuate immediately if ordered",
+        "Close all windows and doors",
+        "Remove combustible materials from around your home",
+        "If trapped, call 112 and stay low to the ground",
+        "Cover your nose and mouth with wet cloth"
+      ],
+      "after": [
+        "Return only when authorities allow",
+        "Watch for hot spots and smoldering debris",
+        "Avoid damaged power lines",
+        "Document damage for insurance",
+        "Be alert for flash floods in burn areas"
+      ]
+    }
+  }
+}
+
