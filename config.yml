@@ -44,11 +44,6 @@ policies:
   epochs: 100
   constrain_similarities: true
 
-- name: UnexpecTEDIntentPolicy
-  priority: 0
-  max_history: 8
-  epochs: 100
-
 assistant_id: 20260103-054151-atomic-forte
 
 tracker_store:
