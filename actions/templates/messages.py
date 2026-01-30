@@ -1,23 +1,9 @@
-"""
-Reusable message templates for Berlin Crisis Response Chatbot.
-Centralizes message formatting to reduce duplication.
-"""
-
 from typing import Dict, List, Optional
 
 from ..utils.constants import EMERGENCY_DATA
 
 
 def get_emergency_emoji(emergency_type: Optional[str]) -> str:
-    """
-    Get emoji for emergency type.
-    
-    Args:
-        emergency_type: Emergency type string
-    
-    Returns:
-        Emoji string for the emergency type
-    """
     emoji_map = {
         'earthquake': '🏗️',
         'flood': '🌊',
@@ -27,12 +13,6 @@ def get_emergency_emoji(emergency_type: Optional[str]) -> str:
 
 
 def format_emergency_contacts() -> str:
-    """
-    Format emergency contact information message.
-    
-    Returns:
-        Formatted string with emergency contacts
-    """
     contacts = EMERGENCY_DATA.get('emergency_contacts', {})
     message = "**📞 EMERGENCY CONTACTS:**\n"
     message += f"🚨 Emergency Services: **{contacts.get('emergency', '112')}**\n"
@@ -42,16 +22,6 @@ def format_emergency_contacts() -> str:
 
 
 def format_shelter_info(district: str, shelters: List[Dict]) -> str:
-    """
-    Format shelter information message for a district.
-    
-    Args:
-        district: District name
-        shelters: List of shelter dictionaries
-    
-    Returns:
-        Formatted string with shelter information
-    """
     message = f"🏥 **EMERGENCY SHELTERS IN {district.upper()}:**\n\n"
     
     for i, shelter in enumerate(shelters, 1):
@@ -64,7 +34,6 @@ def format_shelter_info(district: str, shelters: List[Dict]) -> str:
             message += f"🔧 Facilities: {', '.join(shelter['facilities'])}\n"
         message += "\n"
     
-    # Add emergency contacts
     message += format_emergency_contacts()
     message += "\n**Please head to the nearest shelter if it's safe to travel.**"
     
@@ -72,16 +41,6 @@ def format_shelter_info(district: str, shelters: List[Dict]) -> str:
 
 
 def format_safety_instructions(emergency_type: str, district: str = "your area") -> str:
-    """
-    Format safety instructions message for an emergency type.
-    
-    Args:
-        emergency_type: Type of emergency
-        district: District name (default: "your area")
-    
-    Returns:
-        Formatted string with safety instructions
-    """
     instructions = EMERGENCY_DATA.get('safety_instructions', {}).get(emergency_type, {})
     during = instructions.get('during', [])
     after = instructions.get('after', [])
@@ -104,12 +63,6 @@ def format_safety_instructions(emergency_type: str, district: str = "your area")
 
 
 def format_earthquake_instructions_immediate() -> str:
-    """
-    Format immediate earthquake safety instructions (without location).
-    
-    Returns:
-        Formatted string with immediate earthquake instructions
-    """
     instructions = EMERGENCY_DATA.get('safety_instructions', {}).get('earthquake', {})
     during = instructions.get('during', [])
     after = instructions.get('after', [])

@@ -1,14 +1,6 @@
-# Berlin Crisis Response Chatbot - Simplified Stories
-# STRICT LINEAR FLOWS - Academic/Beginner Appropriate
-# Each emergency type follows a fixed step-by-step sequence
-
 version: "3.1"
 
 stories:
-
-# ============================================================================
-# STEP 1: EMERGENCY TYPE (MANDATORY FIRST STEP)
-# ============================================================================
 
 - story: greet and ask emergency type
   steps:
@@ -38,13 +30,11 @@ stories:
     - action: utter_acknowledge_fire
     - action: utter_ask_location
 
-# ============================================================================
-# EARTHQUAKE FLOW (STRICT ORDER: Instructions → Status → Location → Shelters)
-# ============================================================================
 
 - story: earthquake - safe - complete flow
   steps:
     - intent: report_earthquake
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_earthquake
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
@@ -62,6 +52,7 @@ stories:
 - story: earthquake - injured - escalation
   steps:
     - intent: report_earthquake
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_earthquake
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
@@ -73,6 +64,7 @@ stories:
 - story: earthquake - trapped - escalation
   steps:
     - intent: report_earthquake
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_earthquake
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
@@ -84,6 +76,7 @@ stories:
 - story: earthquake - invalid location - retry
   steps:
     - intent: report_earthquake
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_earthquake
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
@@ -95,7 +88,6 @@ stories:
     - action: action_validate_location
     - slot_was_set:
         - location_validated: false
-    # Note: action_validate_location already sends invalid location message via _handle_invalid_location
     - intent: inform_location
     - action: action_validate_location
     - slot_was_set:
@@ -103,13 +95,11 @@ stories:
     - action: action_find_nearest_shelters
     - action: utter_anything_else
 
-# ============================================================================
-# FLOOD FLOW (STRICT ORDER: Location → Instructions → Status → Shelters)
-# ============================================================================
 
 - story: flood - safe - complete flow
   steps:
     - intent: report_flood
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_flood
     - action: utter_ask_location
     - intent: inform_location
@@ -127,6 +117,7 @@ stories:
 - story: flood - injured - escalation
   steps:
     - intent: report_flood
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_flood
     - action: utter_ask_location
     - intent: inform_location
@@ -144,6 +135,7 @@ stories:
 - story: flood - trapped - escalation
   steps:
     - intent: report_flood
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_flood
     - action: utter_ask_location
     - intent: inform_location
@@ -161,13 +153,13 @@ stories:
 - story: flood - invalid location - retry
   steps:
     - intent: report_flood
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_flood
     - action: utter_ask_location
     - intent: inform_location
     - action: action_validate_location
     - slot_was_set:
         - location_validated: false
-    # Note: action_validate_location already sends invalid location message via _handle_invalid_location
     - intent: inform_location
     - action: action_validate_location
     - slot_was_set:
@@ -180,13 +172,11 @@ stories:
     - action: utter_safe_response
     - action: utter_anything_else
 
-# ============================================================================
-# FIRE FLOW (STRICT ORDER: Location → Instructions → Status → Shelters)
-# ============================================================================
 
 - story: fire - safe - complete flow
   steps:
     - intent: report_fire
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_fire
     - action: utter_ask_location
     - intent: inform_location
@@ -204,6 +194,7 @@ stories:
 - story: fire - injured - escalation
   steps:
     - intent: report_fire
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_fire
     - action: utter_ask_location
     - intent: inform_location
@@ -221,6 +212,7 @@ stories:
 - story: fire - trapped - escalation
   steps:
     - intent: report_fire
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_fire
     - action: utter_ask_location
     - intent: inform_location
@@ -238,13 +230,13 @@ stories:
 - story: fire - invalid location - retry
   steps:
     - intent: report_fire
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_fire
     - action: utter_ask_location
     - intent: inform_location
     - action: action_validate_location
     - slot_was_set:
         - location_validated: false
-    # Note: action_validate_location already sends invalid location message via _handle_invalid_location
     - intent: inform_location
     - action: action_validate_location
     - slot_was_set:
@@ -257,9 +249,6 @@ stories:
     - action: utter_safe_response
     - action: utter_anything_else
 
-# ============================================================================
-# FALLBACK HANDLING - Simple and Strict
-# ============================================================================
 
 - story: fallback - ask for emergency type
   steps:
@@ -276,9 +265,6 @@ stories:
     - intent: goodbye
     - action: utter_goodbye
 
-# ============================================================================
-# DIRECT REQUESTS (Simple handling)
-# ============================================================================
 
 - story: request emergency contacts
   steps:
@@ -295,13 +281,11 @@ stories:
     - intent: request_safety_instructions
     - action: action_provide_safety_instructions
 
-# ============================================================================
-# GPS LOCATION SHARING
-# ============================================================================
 
 - story: earthquake - GPS location sharing
   steps:
     - intent: report_earthquake
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_earthquake
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
@@ -319,6 +303,7 @@ stories:
 - story: flood - GPS location sharing
   steps:
     - intent: report_flood
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_flood
     - action: utter_ask_location
     - intent: share_gps_location
@@ -336,6 +321,7 @@ stories:
 - story: fire - GPS location sharing
   steps:
     - intent: report_fire
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_fire
     - action: utter_ask_location
     - intent: share_gps_location

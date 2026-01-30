@@ -1,8 +1,3 @@
-"""
-Utility functions and constants for Berlin Crisis Response Chatbot actions.
-Contains shared data, helpers, and constants used across all action modules.
-"""
-
 from .constants import (
     BERLIN_DISTRICTS,
     BERLIN_POSTCODES,

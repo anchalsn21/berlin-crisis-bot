@@ -1,11 +1,4 @@
-# Berlin Crisis Response Chatbot - Domain Configuration
-# Defines all intents, entities, slots, responses, and actions
-
 version: "3.1"
-
-# ============================================================================
-# INTENTS - What the user might say
-# ============================================================================
 intents:
   # Greeting and basic
   - greet
@@ -39,18 +32,12 @@ intents:
   - nlu_fallback
   - out_of_scope
 
-# ============================================================================
-# ENTITIES - Information to extract from user messages
-# ============================================================================
 entities:
   - emergency_type
   - district
   - postcode
   - injury_status
 
-# ============================================================================
-# SLOTS - Conversation state storage
-# ============================================================================
 slots:
 
   # Core emergency information
@@ -155,9 +142,6 @@ slots:
       - type: custom
     influence_conversation: true
 
-# ============================================================================
-# RESPONSES - Bot messages
-# ============================================================================
 responses:
   # Greeting
   utter_greet:
@@ -333,7 +317,6 @@ responses:
 
         Stay on the line with emergency services and follow their instructions.
 
-  # Trapped response (critical escalation)
   utter_trapped_response:
     - text: |
         🆘 **CRITICAL: YOU ARE TRAPPED**
@@ -432,9 +415,6 @@ responses:
           payload: "/goodbye"
 
 
-# ============================================================================
-# ACTIONS - Custom actions for dynamic responses
-# ============================================================================
 actions:
   - action_validate_location
   - action_provide_safety_instructions
@@ -447,9 +427,6 @@ actions:
   - action_session_start
   - action_handle_greet
 
-# ============================================================================
-# SESSION CONFIGURATION
-# ============================================================================
 session_config:
   session_expiration_time: 60  # 60 minutes
   carry_over_slots_to_new_session: true

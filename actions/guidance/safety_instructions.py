@@ -1,8 +1,3 @@
-"""
-Safety Instructions Actions
-Provide emergency-specific safety instructions.
-"""
-
 from typing import Any, Dict, List, Text
 
 from rasa_sdk import Action, Tracker
@@ -18,7 +13,6 @@ from ..templates.messages import (
 
 
 class ActionProvideSafetyInstructions(Action):
-    """Provides emergency-specific safety instructions."""
     
     def name(self) -> Text:
         return "action_provide_safety_instructions"
@@ -46,7 +40,6 @@ class ActionProvideSafetyInstructions(Action):
 
 
 class ActionProvideEarthquakeInstructionsImmediate(Action):
-    """Provides earthquake safety instructions immediately."""
     
     def name(self) -> Text:
         return "action_provide_earthquake_instructions_immediate"

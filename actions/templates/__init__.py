@@ -1,8 +1,3 @@
-"""
-Templates for reusable messages, buttons, and formatting.
-Centralizes repeated UI elements to reduce duplication.
-"""
-
 from .buttons import (
     get_status_buttons,
     get_emergency_type_buttons,

@@ -1,13 +1,6 @@
-# Berlin Crisis Response Chatbot - Simplified Rules
-# MINIMAL RULES - Only for basic interactions and critical safety overrides
-
 version: "3.1"
 
 rules:
-
-# ============================================================================
-# BASIC INTERACTIONS
-# ============================================================================
 
 - rule: Start new session with greeting
   steps:
@@ -21,12 +14,8 @@ rules:
     - action: utter_greet
     - action: action_handle_greet
 
-# ============================================================================
-# EMERGENCY REPORTS - Can be first message (HIGH PRIORITY)
-# These rules ensure emergency reports work even as the first message
-# ============================================================================
 
-- rule: Handle earthquake report anytime (including first message)
+- rule: Handle earthquake report anytime
   steps:
     - intent: report_earthquake
     - action: action_reset_emergency_slots
@@ -34,14 +23,14 @@ rules:
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
 
-- rule: Handle flood report anytime (including first message)
+- rule: Handle flood report anytime
   steps:
     - intent: report_flood
     - action: action_reset_emergency_slots
     - action: utter_acknowledge_flood
     - action: utter_ask_location
 
-- rule: Handle fire report anytime (including first message)
+- rule: Handle fire report anytime
   steps:
     - intent: report_fire
     - action: action_reset_emergency_slots
@@ -58,30 +47,21 @@ rules:
     - intent: out_of_scope
     - action: utter_out_of_scope
 
-# ============================================================================
-# CRITICAL SAFETY OVERRIDES - HIGHEST PRIORITY
-# These rules ensure injured/trapped users get immediate escalation
-# They override stories for safety reasons
-# ============================================================================
 
-- rule: CRITICAL - Immediate injured escalation
+- rule: Immediate injured escalation
   steps:
     - intent: report_injured
     - action: action_assess_status
     - action: action_escalate_emergency
     - action: utter_injured_response
 
-- rule: CRITICAL - Immediate trapped escalation
+- rule: Immediate trapped escalation
   steps:
     - intent: report_trapped
     - action: action_assess_status
     - action: action_escalate_emergency
     - action: utter_trapped_response
 
-# ============================================================================
-# STATUS RESPONSES - Handle status intents after status is asked
-# These rules ensure status responses work even if stories don't match
-# ============================================================================
 
 - rule: Handle safe status response after status asked
   condition:

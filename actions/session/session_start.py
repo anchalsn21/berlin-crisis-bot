@@ -1,8 +1,3 @@
-"""
-Session Start Action
-Initializes session with default slot values.
-"""
-
 from typing import Any, Dict, List, Text
 
 from rasa_sdk import Action, Tracker
@@ -11,7 +6,6 @@ from rasa_sdk.events import SlotSet
 
 
 class ActionSessionStart(Action):
-    """Initialize session with default slot values."""
     
     def name(self) -> Text:
         return "action_session_start"

@@ -1,8 +1,3 @@
-"""
-Find Nearest Shelters Action
-Finds and displays nearest emergency shelters for user's district.
-"""
-
 from typing import Any, Dict, List, Text
 
 from rasa_sdk import Action, Tracker
@@ -13,7 +8,6 @@ from ..templates.messages import format_shelter_info, format_emergency_contacts
 
 
 class ActionFindNearestShelters(Action):
-    """Finds and displays nearest emergency shelters."""
     
     def name(self) -> Text:
         return "action_find_nearest_shelters"

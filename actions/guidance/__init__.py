@@ -1,8 +1,3 @@
-"""
-Guidance-related actions for Berlin Crisis Response Chatbot.
-Handles safety instructions and greeting.
-"""
-
 from .safety_instructions import (
     ActionProvideSafetyInstructions,
     ActionProvideEarthquakeInstructionsImmediate,

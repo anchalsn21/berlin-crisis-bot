@@ -1,8 +1,3 @@
-"""
-Location Validation Action
-Validates user's location input (district names, postcodes, GPS coordinates).
-"""
-
 import re
 import requests
 from typing import Any, Dict, List, Text, Optional, Tuple
@@ -17,7 +12,6 @@ from ..templates.messages import format_emergency_contacts
 
 
 class ActionValidateLocation(Action):
-    """Validates user's location input."""
     
     def name(self) -> Text:
         return "action_validate_location"
@@ -27,7 +21,6 @@ class ActionValidateLocation(Action):
         
         events = []
         
-        # Get latest intent early for use throughout the function
         latest_intent = tracker.latest_message.get('intent', {}).get('name', '')
         latest_intent_confidence = tracker.latest_message.get('intent', {}).get('confidence', 0.0)
         
@@ -304,30 +297,20 @@ class ActionValidateLocation(Action):
             return events
     
     def _trigger_shelter_finding(self, tracker: Tracker, events: List, district: str):
-        """Trigger next step based on emergency type."""
         emergency_type = get_emergency_type(tracker)
         instructions_provided = tracker.get_slot('instructions_provided')
         status_asked = tracker.get_slot('status_asked')
         injury_status = tracker.get_slot('injury_status')
         
         if not emergency_type:
-            # No emergency type, can't proceed
             return
         
         if emergency_type == 'earthquake':
-            # For earthquake: Instructions are provided immediately, then status is asked
-            # After location is validated, if status was asked and user is safe, find shelters
-            # Otherwise, let stories handle the flow
             if status_asked and injury_status == 'safe':
-                # User is safe, proceed to find shelters
                 events.append(FollowupAction("action_find_nearest_shelters"))
-            # If status not asked yet or user not safe, let stories handle it
         elif emergency_type in ['flood', 'fire']:
-            # For flood/fire: Location → Instructions → Shelters → Status
             if not instructions_provided:
-                # Provide safety instructions first
                 events.append(FollowupAction("action_provide_safety_instructions"))
             else:
-                # Instructions already provided, find shelters
                 events.append(FollowupAction("action_find_nearest_shelters"))
 

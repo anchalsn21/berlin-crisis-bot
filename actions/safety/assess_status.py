@@ -1,8 +1,3 @@
-"""
-Status Assessment Action
-Assesses user's injury/safety status from their response.
-"""
-
 from typing import Any, Dict, List, Text
 
 from rasa_sdk import Action, Tracker
@@ -13,7 +8,6 @@ from ..templates.buttons import get_status_buttons, get_safe_user_buttons
 
 
 class ActionAssessStatus(Action):
-    """Assesses user's injury/safety status."""
     
     def name(self) -> Text:
         return "action_assess_status"
@@ -24,7 +18,6 @@ class ActionAssessStatus(Action):
         try:
             events = []
 
-            # Get status from slot or analyze message
             injury_status = tracker.get_slot('injury_status')
             status_asked = tracker.get_slot('status_asked')
             latest_intent = tracker.latest_message.get('intent', {}).get('name', '')
@@ -89,7 +82,6 @@ class ActionAssessStatus(Action):
                 dispatcher.utter_message(text=message, buttons=get_status_buttons())
             else:
                 events.append(SlotSet("escalation_required", False))
-                # Always show safe response with quick action buttons when user is safe
                 safe_message = (
                     "✅ **Good, you're safe!**\n\n"
                     "Please follow the safety instructions provided above. Call **112** if your situation changes.\n\n"
