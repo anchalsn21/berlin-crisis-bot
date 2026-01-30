@@ -70,7 +70,7 @@ docs/
 *.temp
 
 # Build artifacts
-# *.tar.gz
+*.tar.gz
 *.zip
 
 # Logs
