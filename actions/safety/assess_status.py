@@ -9,8 +9,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
-from ..utils.delays import add_short_delay
-from ..templates.buttons import get_status_buttons
+from ..templates.buttons import get_status_buttons, get_shelter_menu_buttons
 
 
 class ActionAssessStatus(Action):
@@ -90,9 +89,13 @@ class ActionAssessStatus(Action):
                 dispatcher.utter_message(text=message, buttons=get_status_buttons())
             else:
                 events.append(SlotSet("escalation_required", False))
-                if not status_asked:
-                    dispatcher.utter_message(response="utter_safe_response")
-                    add_short_delay(0.5)
+                # Always show safe response with quick action buttons when user is safe
+                safe_message = (
+                    "✅ **Good, you're safe!**\n\n"
+                    "Please follow the safety instructions provided above. Call **112** if your situation changes.\n\n"
+                    "**What would you like to do next?**"
+                )
+                dispatcher.utter_message(text=safe_message, buttons=get_shelter_menu_buttons())
 
         except Exception as e:
             return []

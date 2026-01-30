@@ -9,7 +9,6 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
 from ..utils.constants import EMERGENCY_DATA
-from ..utils.delays import add_message_delay
 from ..templates.messages import format_shelter_info, format_emergency_contacts
 
 
@@ -44,7 +43,6 @@ class ActionFindNearestShelters(Action):
             
             message = format_shelter_info(district, shelters)
             dispatcher.utter_message(text=message)
-            add_message_delay(1.0)
             
             from rasa_sdk.events import SlotSet
             events = [SlotSet("shelters_shown", True)]

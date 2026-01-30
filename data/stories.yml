@@ -287,6 +287,11 @@ stories:
     - intent: request_shelter_info
     - action: utter_ask_emergency_type
 
+- story: request safety instructions
+  steps:
+    - intent: request_safety_instructions
+    - action: action_provide_safety_instructions
+
 # ============================================================================
 # GPS LOCATION SHARING
 # ============================================================================

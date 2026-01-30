@@ -13,7 +13,6 @@ from rasa_sdk.events import SlotSet, FollowupAction
 
 from ..utils.constants import BERLIN_DISTRICTS, BERLIN_POSTCODES, EMERGENCY_DATA, STANDARD_DISTRICTS
 from ..utils.emergency_helpers import fuzzy_match_district, get_emergency_type
-from ..utils.delays import add_short_delay
 from ..templates.messages import format_emergency_contacts
 
 
@@ -140,7 +139,6 @@ class ActionValidateLocation(Action):
                 
                 confidence_emoji = "✅" if confidence >= 0.9 else "🤔"
                 dispatcher.utter_message(text=f"{confidence_emoji} Location confirmed: **{validated_district}**")
-                add_short_delay(0.6)
                 
                 self._trigger_shelter_finding(tracker, events, validated_district)
             else:

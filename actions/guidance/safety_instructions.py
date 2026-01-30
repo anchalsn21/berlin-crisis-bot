@@ -11,7 +11,6 @@ from rasa_sdk.events import SlotSet
 
 from ..utils.emergency_helpers import get_emergency_type
 from ..utils.constants import EMERGENCY_DATA
-from ..utils.delays import add_message_delay
 from ..templates.messages import (
     format_safety_instructions,
     format_earthquake_instructions_immediate,
@@ -40,7 +39,6 @@ class ActionProvideSafetyInstructions(Action):
         
         message = format_safety_instructions(emergency_type, district)
         dispatcher.utter_message(text=message)
-        add_message_delay(1.0)
         
         events = [SlotSet("instructions_provided", True)]
         
@@ -63,7 +61,6 @@ class ActionProvideEarthquakeInstructionsImmediate(Action):
             
             message = format_earthquake_instructions_immediate()
             dispatcher.utter_message(text=message)
-            add_message_delay(1.0)
             
             return [
                 SlotSet("instructions_provided", True),
