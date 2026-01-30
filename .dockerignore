@@ -1,1 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
 
+# Rasa
+.rasa/
+models_backup/
+results/
+tracker.db
+*.log
+
+# Testing
+testing/results/
+testing/
+
+# Documentation
+docs/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.tar.gz
+*.zip
+
+# Cache
+.cache/
+*.cache
