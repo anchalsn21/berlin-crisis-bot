@@ -9,6 +9,7 @@ from .session.session_start import ActionSessionStart
 from .safety.assess_status import ActionAssessStatus
 from .safety.escalate_emergency import ActionEscalateEmergency
 from .safety.ask_status import ActionAskStatus
+from .safety.reset_emergency_slots import ActionResetEmergencySlots
 
 # Location actions
 from .location.validate_location import ActionValidateLocation
@@ -30,6 +31,7 @@ __all__ = [
     'ActionAssessStatus',
     'ActionEscalateEmergency',
     'ActionAskStatus',
+    'ActionResetEmergencySlots',
     # Location
     'ActionValidateLocation',
     # Shelters

@@ -29,6 +29,7 @@ rules:
 - rule: Handle earthquake report anytime (including first message)
   steps:
     - intent: report_earthquake
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_earthquake
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
@@ -36,12 +37,14 @@ rules:
 - rule: Handle flood report anytime (including first message)
   steps:
     - intent: report_flood
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_flood
     - action: utter_ask_location
 
 - rule: Handle fire report anytime (including first message)
   steps:
     - intent: report_fire
+    - action: action_reset_emergency_slots
     - action: utter_acknowledge_fire
     - action: utter_ask_location
 

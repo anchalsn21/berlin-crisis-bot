@@ -443,6 +443,7 @@ actions:
   - action_assess_status
   - action_ask_status
   - action_escalate_emergency
+  - action_reset_emergency_slots
   - action_session_start
   - action_handle_greet
 
