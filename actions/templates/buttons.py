@@ -74,3 +74,20 @@ def get_location_help_button() -> List[Dict[str, str]]:
         {"title": "📍 Provide Location", "payload": "/request_location_help"}
     ]
 
+
+def get_safe_user_buttons() -> List[Dict[str, str]]:
+    """
+    Get buttons for safe users to continue the conversation.
+    Includes options to report emergency, show shelters, contacts, etc.
+    
+    Returns:
+        List of button dictionaries for safe users to continue interaction
+    """
+    return [
+        {"title": "🚨 Report Emergency", "payload": "/request_emergency_type"},
+        {"title": "🏥 Show Shelters", "payload": "/request_shelter_info"},
+        {"title": "📞 Emergency Contacts", "payload": "/request_emergency_contacts"},
+        {"title": "📋 Safety Instructions", "payload": "/request_safety_instructions"},
+        {"title": "✅ I'm all set", "payload": "/goodbye"}
+    ]
+

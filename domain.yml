@@ -302,6 +302,8 @@ responses:
 
         **What would you like to do next?**
       buttons:
+        - title: "🚨 Report Emergency"
+          payload: "/request_emergency_type"
         - title: "🏥 Show Shelters"
           payload: "/request_shelter_info"
         - title: "📞 Emergency Contacts"

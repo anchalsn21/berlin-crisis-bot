@@ -9,7 +9,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
-from ..templates.buttons import get_status_buttons, get_shelter_menu_buttons
+from ..templates.buttons import get_status_buttons, get_safe_user_buttons
 
 
 class ActionAssessStatus(Action):
@@ -95,7 +95,7 @@ class ActionAssessStatus(Action):
                     "Please follow the safety instructions provided above. Call **112** if your situation changes.\n\n"
                     "**What would you like to do next?**"
                 )
-                dispatcher.utter_message(text=safe_message, buttons=get_shelter_menu_buttons())
+                dispatcher.utter_message(text=safe_message, buttons=get_safe_user_buttons())
 
         except Exception as e:
             return []
