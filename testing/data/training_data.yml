@@ -44,7 +44,7 @@ nlu:
   examples: |
     - experiencing [earthquake](emergency_type)
     - it's an [earthquake](emergency_type)
-    - [wildfire](emergency_type) in the area
+    - [Fire](emergency_type) in the area
     - this is about [flood](emergency_type)
     - [flood](emergency_type) emergency
     - we have a [flood](emergency_type)
@@ -142,18 +142,18 @@ nlu:
     - begin
     - i need help
     - guten tag
-- intent: report_wildfire
+- intent: report_Fire
   examples: |
-    - there's a wildfire nearby
-    - wildfire!
+    - there's a Fire nearby
+    - Fire!
     - forest fire
-    - wildfire emergency
+    - Fire emergency
     - fire!
     - i can see flames
-    - smoke from wildfire
+    - smoke from Fire
     - fire in the area
     - waldbrand
-    - wildfire
+    - Fire
     - feuer
     - fire in the woods
     - bush fire
@@ -342,7 +342,7 @@ nlu:
     - trept
 - regex: emergency_type
   examples: |
-    - earthquake|flood|wildfire|fire|erdbeben|überschwemmung|waldbrand
+    - earthquake|flood|Fire|fire|erdbeben|überschwemmung|waldbrand
 - regex: postcode
   examples: |
     - \b1[0-4]\d{3}\b

@@ -310,6 +310,11 @@ responses:
         • Stay where you are if safe to do so
         • Provide your location to emergency operators
 
+        **Your Information Has Been Logged:**
+        • Location: {district}
+        • Emergency Type: {emergency_type}
+        • Status: INJURED - REQUIRES MEDICAL ASSISTANCE
+
         **Emergency Services (Germany):**
         • **112** - Emergency (Fire, Ambulance, Police)
         • **110** - Police (Non-Emergency)
@@ -409,6 +414,10 @@ responses:
     - text: |
         Is there anything else I can help you with?
       buttons:
+        - title: "🚨 Report Emergency"
+          payload: "/request_emergency_type"
+        - title: "🏥 Show Shelters"
+          payload: "/request_shelter_info"
         - title: "📞 Emergency Contacts"
           payload: "/request_emergency_contacts"
         - title: "✅ I'm all set"
@@ -420,6 +429,7 @@ actions:
   - action_provide_safety_instructions
   - action_provide_earthquake_instructions_immediate
   - action_find_nearest_shelters
+  - action_handle_shelter_request
   - action_assess_status
   - action_ask_status
   - action_escalate_emergency

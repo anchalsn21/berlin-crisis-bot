@@ -169,14 +169,14 @@ stories:
     - action: action_find_nearest_shelters
 
 # ============================================================================
-# WILDFIRE TESTS
+# Fire TESTS
 # ============================================================================
 
-# HAPPY CASE: User reports wildfire, provides location, is safe
-- story: test_wildfire_happy_safe
+# HAPPY CASE: User reports Fire, provides location, is safe
+- story: test_Fire_happy_safe
   steps:
-    - intent: report_wildfire
-    - action: utter_acknowledge_wildfire
+    - intent: report_Fire
+    - action: utter_acknowledge_Fire
     - action: utter_ask_location
     - intent: inform_location
       entities:
@@ -189,11 +189,11 @@ stories:
     - action: action_assess_status
     - action: utter_safe_response
 
-# AVERAGE CASE: User reports wildfire, provides location with typo
-- story: test_wildfire_average_typo
+# AVERAGE CASE: User reports Fire, provides location with typo
+- story: test_Fire_average_typo
   steps:
-    - intent: report_wildfire
-    - action: utter_acknowledge_wildfire
+    - intent: report_Fire
+    - action: utter_acknowledge_Fire
     - action: utter_ask_location
     - intent: inform_location
     - action: action_validate_location
@@ -207,11 +207,11 @@ stories:
         - location_validated: true
     - action: action_provide_safety_instructions
 
-# WORST CASE: User reports wildfire, is injured
-- story: test_wildfire_worst_injured
+# WORST CASE: User reports Fire, is injured
+- story: test_Fire_worst_injured
   steps:
-    - intent: report_wildfire
-    - action: utter_acknowledge_wildfire
+    - intent: report_Fire
+    - action: utter_acknowledge_Fire
     - action: utter_ask_location
     - intent: inform_location
       entities:
@@ -224,11 +224,11 @@ stories:
     - action: action_escalate_emergency
     - action: utter_injured_response
 
-# WORST CASE: User reports wildfire, is trapped
-- story: test_wildfire_worst_trapped
+# WORST CASE: User reports Fire, is trapped
+- story: test_Fire_worst_trapped
   steps:
-    - intent: report_wildfire
-    - action: utter_acknowledge_wildfire
+    - intent: report_Fire
+    - action: utter_acknowledge_Fire
     - action: utter_ask_location
     - intent: inform_location
       entities:
@@ -241,11 +241,11 @@ stories:
     - action: action_escalate_emergency
     - action: utter_trapped_response
 
-# AVERAGE CASE: User reports fire (synonym for wildfire)
-- story: test_wildfire_average_synonym
+# AVERAGE CASE: User reports fire (synonym for Fire)
+- story: test_Fire_average_synonym
   steps:
-    - intent: report_wildfire
-    - action: utter_acknowledge_wildfire
+    - intent: report_Fire
+    - action: utter_acknowledge_Fire
     - action: utter_ask_location
     - intent: inform_location
       entities:

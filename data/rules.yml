@@ -47,6 +47,27 @@ rules:
     - intent: out_of_scope
     - action: utter_out_of_scope
 
+- rule: Handle request emergency type anytime
+  steps:
+    - intent: request_emergency_type
+    - action: action_reset_emergency_slots
+    - action: utter_ask_emergency_type
+
+- rule: Handle request shelter info anytime
+  steps:
+    - intent: request_shelter_info
+    - action: action_handle_shelter_request
+
+- rule: Handle request emergency contacts anytime
+  steps:
+    - intent: request_emergency_contacts
+    - action: utter_emergency_contacts
+
+- rule: Handle request safety instructions anytime
+  steps:
+    - intent: request_safety_instructions
+    - action: action_provide_safety_instructions
+
 
 - rule: Immediate injured escalation
   steps:
@@ -70,4 +91,3 @@ rules:
   steps:
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response

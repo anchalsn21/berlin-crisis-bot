@@ -40,7 +40,6 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_ask_location
     - intent: inform_location
     - action: action_validate_location
@@ -82,7 +81,6 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_ask_location
     - intent: inform_location
     - action: action_validate_location
@@ -111,7 +109,6 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_anything_else
 
 - story: flood - injured - escalation
@@ -169,7 +166,6 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_anything_else
 
 
@@ -188,7 +184,6 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_anything_else
 
 - story: fire - injured - escalation
@@ -246,7 +241,6 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_anything_else
 
 
@@ -265,6 +259,12 @@ stories:
     - intent: goodbye
     - action: utter_goodbye
 
+- story: goodbye after shelters shown
+  steps:
+    - slot_was_set:
+        - shelters_shown: true
+    - intent: goodbye
+    - action: utter_goodbye
 
 - story: request emergency contacts
   steps:
@@ -274,7 +274,17 @@ stories:
 - story: request shelter info - no emergency type
   steps:
     - intent: request_shelter_info
-    - action: utter_ask_emergency_type
+    - action: action_handle_shelter_request
+
+- story: request shelter info - provide location after asking
+  steps:
+    - intent: request_shelter_info
+    - action: action_handle_shelter_request
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_find_nearest_shelters
 
 - story: request safety instructions
   steps:
@@ -291,7 +301,6 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_ask_location
     - intent: share_gps_location
     - action: action_validate_location
@@ -315,7 +324,6 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_anything_else
 
 - story: fire - GPS location sharing
@@ -333,5 +341,4 @@ stories:
     - action: action_ask_status
     - intent: report_safe
     - action: action_assess_status
-    - action: utter_safe_response
     - action: utter_anything_else

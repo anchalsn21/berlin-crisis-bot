@@ -45,7 +45,7 @@ def get_emergency_type(tracker: Tracker) -> Optional[str]:
     emergency_type = tracker.get_slot('emergency_type')
     if emergency_type:
         emergency_lower = emergency_type.lower()
-        if emergency_lower in ['fire', 'wildfire']:
+        if emergency_lower in ['fire', 'Fire']:
             return 'fire'
         return emergency_lower
 
@@ -63,7 +63,7 @@ def get_emergency_type(tracker: Tracker) -> Optional[str]:
             for entity in entities:
                 if entity.get('entity') == 'emergency_type':
                     entity_value = entity.get('value', '').lower()
-                    if entity_value in ['fire', 'wildfire']:
+                    if entity_value in ['fire', 'Fire']:
                         return 'fire'
                     elif entity_value in ['earthquake', 'flood', 'fire']:
                         return entity_value

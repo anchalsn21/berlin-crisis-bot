@@ -8,6 +8,7 @@ from .safety.reset_emergency_slots import ActionResetEmergencySlots
 from .location.validate_location import ActionValidateLocation
 
 from .shelters.find_nearest_shelters import ActionFindNearestShelters
+from .shelters.handle_shelter_request import ActionHandleShelterRequest
 
 from .guidance.safety_instructions import (
     ActionProvideSafetyInstructions,
@@ -23,6 +24,7 @@ __all__ = [
     'ActionResetEmergencySlots',
     'ActionValidateLocation',
     'ActionFindNearestShelters',
+    'ActionHandleShelterRequest',
     'ActionProvideSafetyInstructions',
     'ActionProvideEarthquakeInstructionsImmediate',
     'ActionHandleGreet',

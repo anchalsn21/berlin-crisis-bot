@@ -3,9 +3,9 @@ from typing import List, Dict
 
 def get_status_buttons() -> List[Dict[str, str]]:
     return [
-        {"title": "✅ I'm safe", "payload": "i'm safe"},
-        {"title": "🤕 I'm injured", "payload": "i'm injured"},
-        {"title": "🆘 I'm trapped", "payload": "i'm trapped"}
+        {"title": "✅ I'm safe", "payload": "/report_safe"},
+        {"title": "🤕 I'm injured", "payload": "/report_injured"},
+        {"title": "🆘 I'm trapped", "payload": "/report_trapped"}
     ]
 
 

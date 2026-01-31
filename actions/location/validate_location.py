@@ -43,12 +43,7 @@ class ActionValidateLocation(Action):
             if (location_validated and district) or location_just_validated:
                 return []
             
-            if latest_intent not in ['inform_location', 'share_gps_location']:
-                return []
-            
-            if latest_intent_confidence < 0.5:
-                return []
-            
+            latest_message_lower = tracker.latest_message.get('text', '').strip().lower()
             status_was_asked = tracker.get_slot('status_asked')
             location_was_asked = False
             entities = tracker.latest_message.get('entities', [])
@@ -61,9 +56,25 @@ class ActionValidateLocation(Action):
                         break
                 elif event.get('event') == 'bot':
                     text = event.get('text', '').lower()
-                    if any(phrase in text for phrase in ['which area', 'which district', 'your location', 'where are you', 'berlin district', 'postcode', 'select your district']):
+                    if any(phrase in text for phrase in ['which area', 'which district', 'your location', 'where are you', 'berlin district', 'postcode', 'select your district', 'i need to know your location']):
                         location_was_asked = True
                         break
+            
+            if latest_intent not in ['inform_location', 'share_gps_location']:
+                if not location_was_asked:
+                    return []
+                
+                if not has_location_entity:
+                    is_known_district = False
+                    for std_district in STANDARD_DISTRICTS:
+                        if latest_message_lower == std_district.lower():
+                            is_known_district = True
+                            break
+                    
+                    if not is_known_district:
+                        postcode_match = re.search(r'\b(1[0-4]\d{3})\b', latest_message_lower)
+                        if not postcode_match:
+                            return []
             
             if status_was_asked and not location_was_asked and not has_location_entity:
                 return []
@@ -303,6 +314,7 @@ class ActionValidateLocation(Action):
         injury_status = tracker.get_slot('injury_status')
         
         if not emergency_type:
+            events.append(FollowupAction("utter_ask_emergency_type"))
             return
         
         if emergency_type == 'earthquake':

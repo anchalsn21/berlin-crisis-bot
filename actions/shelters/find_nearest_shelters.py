@@ -5,6 +5,7 @@ from rasa_sdk.executor import CollectingDispatcher
 
 from ..utils.constants import EMERGENCY_DATA
 from ..templates.messages import format_shelter_info, format_emergency_contacts
+from ..templates.buttons import get_safe_user_buttons
 
 
 class ActionFindNearestShelters(Action):
@@ -24,19 +25,22 @@ class ActionFindNearestShelters(Action):
                 return []
 
             if not district:
-                dispatcher.utter_message(text="I need your location to find nearby shelters. Please tell me your Berlin district.")
-                return []
+                from rasa_sdk.events import FollowupAction
+                dispatcher.utter_message(text="📍 I need your location to find nearby shelters.")
+                return [FollowupAction("utter_ask_location")]
             
             shelters = EMERGENCY_DATA.get('shelters', {}).get(district, [])
             
             if not shelters:
                 dispatcher.utter_message(text=f"⚠️ No specific shelters listed for {district}. Please call **112** for the nearest emergency shelter or evacuation point.")
                 dispatcher.utter_message(text=format_emergency_contacts())
+                dispatcher.utter_message(text="**What would you like to do next?**", buttons=get_safe_user_buttons())
                 from rasa_sdk.events import SlotSet
                 return [SlotSet("shelters_shown", True)]
             
             message = format_shelter_info(district, shelters)
             dispatcher.utter_message(text=message)
+            dispatcher.utter_message(text="**What would you like to do next?**", buttons=get_safe_user_buttons())
             
             from rasa_sdk.events import SlotSet
             events = [SlotSet("shelters_shown", True)]

@@ -21,7 +21,7 @@ nlu:
 - intent: inform_emergency_type
   examples: |
     - the emergency is [earthquake](emergency_type)
-    - there's a [wildfire](emergency_type)
+    - there's a [Fire](emergency_type)
 - intent: request_human_help
   examples: |
     - connect me to someone
@@ -57,12 +57,12 @@ nlu:
     - emergency
     - hello
     - help me
-- intent: report_wildfire
+- intent: report_Fire
   examples: |
     - there's a fire
     - fire spreading
     - the forest is on fire
-    - wildfire approaching
+    - Fire approaching
 - intent: report_safe
   examples: |
     - all good
@@ -178,7 +178,7 @@ nlu:
     - trept
 - regex: emergency_type
   examples: |
-    - earthquake|flood|wildfire|fire|erdbeben|überschwemmung|waldbrand
+    - earthquake|flood|Fire|fire|erdbeben|überschwemmung|waldbrand
 - regex: postcode
   examples: |
     - \b1[0-4]\d{3}\b

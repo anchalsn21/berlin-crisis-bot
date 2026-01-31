@@ -5,6 +5,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
 from ..templates.buttons import get_status_buttons, get_safe_user_buttons
+from ..utils.emergency_helpers import get_emergency_type
 
 
 class ActionAssessStatus(Action):
@@ -82,12 +83,19 @@ class ActionAssessStatus(Action):
                 dispatcher.utter_message(text=message, buttons=get_status_buttons())
             else:
                 events.append(SlotSet("escalation_required", False))
+                emergency_type = get_emergency_type(tracker)
+                district = tracker.get_slot('district')
+                
                 safe_message = (
                     "✅ **Good, you're safe!**\n\n"
                     "Please follow the safety instructions provided above. Call **112** if your situation changes.\n\n"
                     "**What would you like to do next?**"
                 )
                 dispatcher.utter_message(text=safe_message, buttons=get_safe_user_buttons())
+                
+                if emergency_type == 'earthquake' and not district:
+                    from rasa_sdk.events import FollowupAction
+                    events.append(FollowupAction("utter_ask_location"))
 
         except Exception as e:
             return []

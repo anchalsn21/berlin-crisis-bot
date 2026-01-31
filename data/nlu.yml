@@ -30,11 +30,17 @@ nlu:
     - see you
     - thank you
     - thanks
+    - ok thanks
+    - okay thanks
+    - thanks ok
+    - thanks okay
     - that's all
     - i'm done
     - exit
     - tschüss
     - danke
+    - danke schön
+    - vielen dank
 
 - intent: affirm
   examples: |
@@ -109,8 +115,8 @@ nlu:
     - the forest is on fire
     - fire spreading
     - fire!
-    - wildfire
-    - there's a wildfire
+    - Fire
+    - there's a Fire
 
 - intent: inform_emergency_type
   examples: |
@@ -325,5 +331,5 @@ nlu:
 
 - regex: emergency_type
   examples: |
-    - earthquake|flood|fire|wildfire|erdbeben|überschwemmung|waldbrand|feuer
+    - earthquake|flood|fire|Fire|erdbeben|überschwemmung|waldbrand|feuer
 

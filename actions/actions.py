@@ -7,6 +7,7 @@ from .safety.ask_status import ActionAskStatus
 from .location.validate_location import ActionValidateLocation
 
 from .shelters.find_nearest_shelters import ActionFindNearestShelters
+from .shelters.handle_shelter_request import ActionHandleShelterRequest
 
 from .guidance.safety_instructions import (
     ActionProvideSafetyInstructions,
@@ -21,6 +22,7 @@ __all__ = [
     'ActionAskStatus',
     'ActionValidateLocation',
     'ActionFindNearestShelters',
+    'ActionHandleShelterRequest',
     'ActionProvideSafetyInstructions',
     'ActionProvideEarthquakeInstructionsImmediate',
     'ActionHandleGreet',
