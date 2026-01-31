@@ -77,9 +77,9 @@ class ActionValidateLocation(Action):
             if status_was_asked and not location_was_asked and not has_location_entity:
                 return []
             
-            escalation_required = tracker.get_slot('escalation_required')
-            if escalation_required:
-                return []
+            # Don't skip location validation when escalation is required - we NEED location for injured/trapped users!
+            # The escalation_required check was preventing location validation for critical cases
+            # Removed: escalation_required check that was blocking location validation
             
             latest_message_lower = tracker.latest_message.get('text', '').strip().lower()
             status_indicators = ['i\'m safe', 'i am safe', 'we are safe', 'everyone is safe', 'i\'m injured', 'i am injured', 'i\'m trapped', 'i am trapped', 'i\'m okay', 'i\'m fine', 'we\'re safe', 'not injured', 'not hurt', 'no injuries']
@@ -353,8 +353,10 @@ class ActionValidateLocation(Action):
             return
         
         if emergency_type == 'earthquake':
-            if status_asked and injury_status == 'safe':
-                events.append(FollowupAction("action_find_nearest_shelters"))
+            # For earthquake, shelters are shown via stories after location validation
+            # Don't auto-trigger here - let stories handle the flow
+            # This ensures proper sequence: critical instructions -> location -> shelters
+            pass
         elif emergency_type in ['flood', 'fire']:
             if not instructions_provided:
                 events.append(FollowupAction("action_provide_safety_instructions"))

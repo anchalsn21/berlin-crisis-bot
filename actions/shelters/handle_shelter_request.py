@@ -20,7 +20,9 @@ class ActionHandleShelterRequest(Action):
         district = tracker.get_slot('district')
         emergency_type = tracker.get_slot('emergency_type')
         
-        if not emergency_type:
+        # If district exists but no emergency_type, still show shelters (user might have district from previous conversation)
+        # Only ask for emergency_type if neither district nor emergency_type exists
+        if not emergency_type and not district:
             return [FollowupAction("utter_ask_emergency_type")]
         
         if not district:

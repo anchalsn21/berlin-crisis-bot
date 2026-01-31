@@ -34,13 +34,34 @@ class ActionFindNearestShelters(Action):
             if not shelters:
                 dispatcher.utter_message(text=f"⚠️ No specific shelters listed for {district}. Please call **112** for the nearest emergency shelter or evacuation point.")
                 dispatcher.utter_message(text=format_emergency_contacts())
-                dispatcher.utter_message(text="**What would you like to do next?**", buttons=get_safe_user_buttons())
+                
+                # Check if this is an independent request (not part of main emergency flow)
+                status_asked = tracker.get_slot('status_asked')
+                instructions_provided = tracker.get_slot('instructions_provided')
+                location_validated = tracker.get_slot('location_validated')
+                is_main_flow = (status_asked and location_validated) or (instructions_provided and location_validated)
+                
+                if not is_main_flow:
+                    dispatcher.utter_message(text="**What would you like to do next?**", buttons=get_safe_user_buttons())
+                
                 from rasa_sdk.events import SlotSet
                 return [SlotSet("shelters_shown", True)]
             
             message = format_shelter_info(district, shelters)
             dispatcher.utter_message(text=message)
-            dispatcher.utter_message(text="**What would you like to do next?**", buttons=get_safe_user_buttons())
+            
+            # Check if this is an independent request (not part of main emergency flow)
+            # Main flow indicators: status_asked is True (earthquake flow) or instructions_provided is True (flood/fire flow)
+            status_asked = tracker.get_slot('status_asked')
+            instructions_provided = tracker.get_slot('instructions_provided')
+            location_validated = tracker.get_slot('location_validated')
+            
+            # If this is an independent request (not part of main flow), show conclusion
+            # Main flow will call utter_anything_else separately, so we skip here to avoid duplicates
+            is_main_flow = (status_asked and location_validated) or (instructions_provided and location_validated)
+            
+            if not is_main_flow:
+                dispatcher.utter_message(text="**What would you like to do next?**", buttons=get_safe_user_buttons())
             
             from rasa_sdk.events import SlotSet
             events = [SlotSet("shelters_shown", True)]

@@ -24,13 +24,18 @@ class ActionProvideSafetyInstructions(Action):
         emergency_type = get_emergency_type(tracker)
         district = tracker.get_slot('district') or "your area"
 
+        # If no emergency_type, ask user to report emergency first
+        # Slots persist until user explicitly reports a new emergency
         if not emergency_type:
             dispatcher.utter_message(text="⚠️ Please tell me what type of emergency you're experiencing (earthquake, flood, or fire).")
+            dispatcher.utter_message(response="utter_ask_emergency_type")
             return []
         
-        instructions_provided = tracker.get_slot('instructions_provided')
-        if instructions_provided:
-            return []
+        # Allow showing safety instructions again if explicitly requested
+        # Don't block based on instructions_provided - user might want to see them again
+        # instructions_provided = tracker.get_slot('instructions_provided')
+        # if instructions_provided:
+        #     return []
         
         message = format_safety_instructions(emergency_type, district)
         dispatcher.utter_message(text=message)

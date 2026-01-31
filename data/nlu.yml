@@ -300,6 +300,8 @@ nlu:
 - intent: request_safety_instructions
   examples: |
     - safety instructions
+    - Safety Instructions
+    - SAFETY INSTRUCTIONS
     - what should i do
     - how do i stay safe
     - safety tips
@@ -307,6 +309,9 @@ nlu:
     - tell me how to stay safe
     - safety guidelines
     - what precautions should i take
+    - show safety instructions
+    - give me safety instructions
+    - i need safety instructions
     - safety measures
     - how to protect myself
 

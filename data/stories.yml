@@ -419,10 +419,9 @@ stories:
     - action: action_find_nearest_shelters
     - action: utter_anything_else
 
-- story: request safety instructions
-  steps:
-    - intent: request_safety_instructions
-    - action: action_provide_safety_instructions
+# Note: request_safety_instructions and request_shelter_info are handled by rules
+# Rules handle these "anytime" requests and end with action_listen
+# Stories are only for specific flow scenarios, not general "anytime" requests
 
 
 - story: earthquake - injured - GPS location sharing
