@@ -13,15 +13,9 @@ class ActionEscalateEmergency(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, 
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        events = [SlotSet("escalation_required", True)]
-        
-        district = tracker.get_slot('district')
-        emergency_type = tracker.get_slot('emergency_type')
-        
-        if emergency_type == 'earthquake' and not district:
-            events.append(FollowupAction("utter_ask_location"))
-        
-        return events
+        # Just set the escalation flag - let stories/rules control the flow explicitly
+        # This prevents FollowupAction from executing before critical instructions are shown
+        return [SlotSet("escalation_required", True)]
 
 
 

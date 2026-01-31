@@ -10,6 +10,7 @@ from ..templates.messages import (
     format_safety_instructions,
     format_earthquake_instructions_immediate,
 )
+from ..templates.buttons import get_safe_user_buttons
 
 
 class ActionProvideSafetyInstructions(Action):
@@ -33,6 +34,17 @@ class ActionProvideSafetyInstructions(Action):
         
         message = format_safety_instructions(emergency_type, district)
         dispatcher.utter_message(text=message)
+        
+        # Show buttons if this is an independent request (not part of main emergency flow)
+        # In the main flow, shelters will be shown next with buttons, so we skip buttons here
+        # Check if location was just validated (indicating main flow) vs independent request
+        location_validated = tracker.get_slot('location_validated')
+        shelters_shown = tracker.get_slot('shelters_shown')
+        
+        # Only show buttons if this is likely an independent request
+        # (location not recently validated, or shelters already shown)
+        if not location_validated or shelters_shown:
+            dispatcher.utter_message(text="**What would you like to do next?**", buttons=get_safe_user_buttons())
         
         events = [SlotSet("instructions_provided", True)]
         

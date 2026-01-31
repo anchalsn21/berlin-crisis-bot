@@ -20,5 +20,10 @@ class ActionResetEmergencySlots(Action):
         events.append(SlotSet("escalation_required", False))
         events.append(SlotSet("injury_status", None))
         events.append(SlotSet("status_asked", False))
+        # Reset location slots when starting a new emergency
+        events.append(SlotSet("district", None))
+        events.append(SlotSet("location_validated", False))
+        events.append(SlotSet("location_retry_count", 0))
+        events.append(SlotSet("postcode", None))
         
         return events

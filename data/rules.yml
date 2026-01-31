@@ -15,7 +15,10 @@ rules:
     - action: action_handle_greet
 
 
-- rule: Handle earthquake report anytime
+- rule: Handle earthquake report anytime (only if not already in earthquake flow)
+  condition:
+    - slot_was_set:
+        - status_asked: false
   steps:
     - intent: report_earthquake
     - action: action_reset_emergency_slots
@@ -68,26 +71,6 @@ rules:
     - intent: request_safety_instructions
     - action: action_provide_safety_instructions
 
-
-- rule: Immediate injured escalation
-  steps:
-    - intent: report_injured
-    - action: action_assess_status
-    - action: action_escalate_emergency
-    - action: utter_injured_response
-
-- rule: Immediate trapped escalation
-  steps:
-    - intent: report_trapped
-    - action: action_assess_status
-    - action: action_escalate_emergency
-    - action: utter_trapped_response
-
-
-- rule: Handle safe status response after status asked
-  condition:
-    - slot_was_set:
-        - status_asked: true
-  steps:
-    - intent: report_safe
-    - action: action_assess_status
+# Note: Injured/trapped responses are handled by stories to allow complete flow control
+# Stories control: injured/trapped -> critical instructions -> location -> shelters -> conclusion
+# Rules were removed to avoid conflicts with story flows

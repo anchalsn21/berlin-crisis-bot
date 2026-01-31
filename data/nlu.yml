@@ -143,12 +143,41 @@ nlu:
     - [Charlottenburg](district)
     - [Neukölln](district)
     - [Pankow](district)
+    - [Friedrichshain](district)
+    - [Prenzlauer Berg](district)
+    - [Schöneberg](district)
+    - [Wedding](district)
+    - [Lichtenberg](district)
+    - [Steglitz](district)
+    - [Tempelhof](district)
+    - [Spandau](district)
+    - [Marzahn](district)
+    - [Treptow](district)
+    - [Reinickendorf](district)
+    - [Hellersdorf](district)
+    - [Wilmersdorf](district)
+    - [Zehlendorf](district)
+    - [Köpenick](district)
     - Mitte
     - Kreuzberg
     - Charlottenburg
     - Prenzlauer Berg
     - Neukölln
     - Pankow
+    - Friedrichshain
+    - Schöneberg
+    - Wedding
+    - Lichtenberg
+    - Steglitz
+    - Tempelhof
+    - Spandau
+    - Marzahn
+    - Treptow
+    - Reinickendorf
+    - Hellersdorf
+    - Wilmersdorf
+    - Zehlendorf
+    - Köpenick
     - [10115](postcode)
     - [10961](postcode)
     - [10437](postcode)
@@ -253,12 +282,18 @@ nlu:
   examples: |
     - where can i go
     - show me shelters
+    - show shelters
+    - Show Shelters
     - nearest shelter
     - where are the shelters
     - evacuation centers
     - where should i evacuate
     - safe places nearby
     - shelter locations
+    - shelters
+    - i need shelters
+    - find shelters
+    - shelter info
     - emergency shelters
     - find shelter
 

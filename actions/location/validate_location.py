@@ -49,32 +49,30 @@ class ActionValidateLocation(Action):
             entities = tracker.latest_message.get('entities', [])
             has_location_entity = any(e.get('entity') in ['district', 'postcode'] for e in entities)
             
-            for event in reversed(tracker.events[-15:]):
+            # Check more events to catch location requests (increase from 15 to 25)
+            for event in reversed(tracker.events[-25:]):
                 if event.get('event') == 'action':
-                    if event.get('name', '') == 'utter_ask_location':
+                    if event.get('name', '') in ['utter_ask_location', 'utter_ask_location_critical']:
                         location_was_asked = True
                         break
                 elif event.get('event') == 'bot':
                     text = event.get('text', '').lower()
-                    if any(phrase in text for phrase in ['which area', 'which district', 'your location', 'where are you', 'berlin district', 'postcode', 'select your district', 'i need to know your location']):
+                    if any(phrase in text for phrase in ['which area', 'which district', 'your location', 'where are you', 'berlin district', 'postcode', 'select your district', 'i need to know your location', 'i need your location to help emergency services', 'i need your location', 'please provide', 'or your postcode', 'berlin district (e.g.']):
                         location_was_asked = True
                         break
             
-            if latest_intent not in ['inform_location', 'share_gps_location']:
+            # If location was asked, try to extract location even if intent is not inform_location
+            # This handles cases where NLU doesn't classify simple district names correctly
+            # Also handle nlu_fallback when location was asked (user might have typed a district name)
+            if latest_intent not in ['inform_location', 'share_gps_location', 'nlu_fallback']:
                 if not location_was_asked:
                     return []
-                
-                if not has_location_entity:
-                    is_known_district = False
-                    for std_district in STANDARD_DISTRICTS:
-                        if latest_message_lower == std_district.lower():
-                            is_known_district = True
-                            break
-                    
-                    if not is_known_district:
-                        postcode_match = re.search(r'\b(1[0-4]\d{3})\b', latest_message_lower)
-                        if not postcode_match:
-                            return []
+            
+            # For nlu_fallback, only process if location was asked
+            if latest_intent == 'nlu_fallback':
+                if not location_was_asked:
+                    return []
+                # Continue to extraction logic below - don't return early
             
             if status_was_asked and not location_was_asked and not has_location_entity:
                 return []
@@ -93,6 +91,7 @@ class ActionValidateLocation(Action):
             if any(word == latest_message_lower for word in acknowledgment_words):
                 return []
             
+            # Only skip processing if location was NOT asked AND no entity AND doesn't look like location
             if not location_was_asked and not has_location_entity:
                 if any(indicator in latest_message_lower for indicator in status_indicators):
                     return []
@@ -106,6 +105,8 @@ class ActionValidateLocation(Action):
                 if any(phrase in latest_message_lower for phrase in non_location_phrases):
                     return []
                 
+                # If location was asked, don't return early - let extraction logic handle it
+                # This check only applies when location was NOT asked
                 if len(latest_message_lower.split()) <= 2 and not any(char.isdigit() for char in latest_message_lower):
                     is_known_district = False
                     for std_district in STANDARD_DISTRICTS:
@@ -118,12 +119,27 @@ class ActionValidateLocation(Action):
             
             latest_message = tracker.latest_message.get('text', '').strip()
             
-            extracted_district = self._process_gps_coordinates(tracker, dispatcher, latest_intent)
-            
-            if not extracted_district:
-                extracted_district, postcode = self._extract_location_from_message(tracker, latest_message, entities)
+            # Always try to extract location if location was asked, regardless of intent
+            # This handles cases where simple district names aren't classified as inform_location
+            if location_was_asked:
+                extracted_district = self._process_gps_coordinates(tracker, dispatcher, latest_intent)
+                
+                if not extracted_district:
+                    extracted_district, postcode = self._extract_location_from_message(tracker, latest_message, entities)
+                else:
+                    postcode = None
             else:
-                postcode = None
+                # Only process if intent matches or has entity
+                if latest_intent in ['inform_location', 'share_gps_location'] or has_location_entity:
+                    extracted_district = self._process_gps_coordinates(tracker, dispatcher, latest_intent)
+                    
+                    if not extracted_district:
+                        extracted_district, postcode = self._extract_location_from_message(tracker, latest_message, entities)
+                    else:
+                        postcode = None
+                else:
+                    extracted_district = None
+                    postcode = None
             
             if postcode and not extracted_district:
                 extracted_district = BERLIN_POSTCODES.get(postcode)
@@ -131,6 +147,25 @@ class ActionValidateLocation(Action):
             if location_validated and district and extracted_district:
                 if extracted_district.lower() == district.lower():
                     return []
+            
+            # If no district extracted but location was asked, try direct fuzzy match on message text
+            if not extracted_district and location_was_asked:
+                matched_district, confidence, suggestions = fuzzy_match_district(latest_message)
+                if matched_district and confidence >= 0.6:
+                    extracted_district = matched_district
+                elif suggestions:
+                    extracted_district = suggestions[0]
+                else:
+                    # Try direct lookup in BERLIN_DISTRICTS
+                    latest_lower = latest_message.lower().strip()
+                    if latest_lower in BERLIN_DISTRICTS:
+                        extracted_district = BERLIN_DISTRICTS[latest_lower]
+                    else:
+                        # Try exact match in STANDARD_DISTRICTS
+                        for std_district in STANDARD_DISTRICTS:
+                            if latest_lower == std_district.lower():
+                                extracted_district = std_district
+                                break
             
             if extracted_district:
                 validated_district, confidence = self._validate_and_fuzzy_match(extracted_district, dispatcher)

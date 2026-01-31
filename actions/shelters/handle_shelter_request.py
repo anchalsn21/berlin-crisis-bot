@@ -15,6 +15,8 @@ class ActionHandleShelterRequest(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
+        from rasa_sdk.events import SlotSet, FollowupAction
+        
         district = tracker.get_slot('district')
         emergency_type = tracker.get_slot('emergency_type')
         
@@ -24,5 +26,11 @@ class ActionHandleShelterRequest(Action):
         if not district:
             return [FollowupAction("utter_ask_location")]
         
+        # Reset shelters_shown to allow showing shelters again when explicitly requested
+        events = [SlotSet("shelters_shown", False)]
+        
         find_shelters_action = ActionFindNearestShelters()
-        return find_shelters_action.run(dispatcher, tracker, domain)
+        shelter_events = find_shelters_action.run(dispatcher, tracker, domain)
+        
+        events.extend(shelter_events)
+        return events
