@@ -230,8 +230,6 @@ Visual representation of the conversation flows and system architecture:
 
 **[View Flowchart on Figma](https://www.figma.com/design/NXqdI0NOAHiggphMv86hOC/BERLIN-CRISIS-CHATBOT-FLOWCHART?m=auto&t=Cu1nd8yw2O1f2yL0-6)**
 
-*Replace `https://www.figma.com/design/NXqdI0NOAHiggphMv86hOC/BERLIN-CRISIS-CHATBOT-FLOWCHART?m=auto&t=Cu1nd8yw2O1f2yL0-6` with your actual Figma flowchart link*
-
 ## 🛠️ Development
 
 ### Training the Model
@@ -258,30 +256,69 @@ python -m rasa train --fixed-model-name crisis-bot
 
 ## 🌐 Deployment
 
-### Docker Deployment
+The project uses a **split deployment architecture** where the backend and frontend are deployed separately:
 
-The project includes a `Dockerfile` for containerized deployment. The container:
-- Automatically trains the model on first run if not present
-- Starts both Rasa server and actions server
-- Exposes ports 7860 (Rasa) and 5055 (Actions)
+### Backend Deployment (Hugging Face Spaces)
 
-### Cloud Deployment
+The Rasa backend is deployed on **Hugging Face Spaces** using Docker:
 
-The project is configured for deployment on:
-- **Hugging Face Spaces**: Uses port 7860
-- **Render**: Uses `render.yaml` configuration
-- Other platforms: Configure ports and environment variables as needed
+1. **Push your code to a GitHub repository** (must be public for Hugging Face Spaces)
+2. **Create a new Space** on [Hugging Face Spaces](https://huggingface.co/spaces)
+3. **Select Docker** as the SDK
+4. **Configure the Space**:
+   - Dockerfile: Uses the root `Dockerfile`
+   - Port: 7860 (default Hugging Face Spaces port)
+   - The container automatically:
+     - Trains the model on first run if not present
+     - Starts both Rasa server (port 7860) and actions server (port 5055)
+     - Exposes the Rasa API endpoint
 
-## 📝 License
+5. **Get your Space URL**: `https://your-username-berlin-crisis-bot.hf.space`
 
-MIT License
+### Frontend Deployment
 
-## 🤝 Contributing
+The Next.js frontend is deployed separately using Docker, built directly from the GitHub public repository:
 
-Contributions are welcome! Please ensure:
-- Code follows project conventions
-- Tests pass before submitting
-- Documentation is updated for new features
+1. **Ensure your repository is public** on GitHub
+2. **Deploy to your preferred platform** (e.g., Vercel, Netlify, Render, Railway):
+   - Point to the `frontend/` directory
+   - Use the `frontend/Dockerfile` for containerized deployment
+   - Set environment variable: `NEXT_PUBLIC_RASA_URL` to your Hugging Face Spaces backend URL
+
+3. **Example environment configuration**:
+   ```env
+   NEXT_PUBLIC_RASA_URL=https://your-username-berlin-crisis-bot.hf.space
+   ```
+
+### Deployment Architecture
+
+```
+┌─────────────────────────┐         ┌─────────────────────────┐
+│   Frontend (Docker)     │  ──────▶│  Backend (HF Spaces)   │
+│   - Next.js App         │  HTTP   │  - Rasa Server          │
+│   - Port: 3000/80       │         │  - Port: 7860          │
+│   - GitHub Repo         │         │  - Actions: 5055        │
+└─────────────────────────┘         └─────────────────────────┘
+```
+
+### Local Docker Testing
+
+To test the full stack locally:
+
+1. **Start backend**:
+   ```bash
+   docker build -t berlin-crisis-bot .
+   docker run -p 7860:7860 -p 5055:5055 berlin-crisis-bot
+   ```
+
+2. **Start frontend**:
+   ```bash
+   cd frontend
+   docker build -t berlin-crisis-frontend .
+   docker run -p 3000:3000 -e NEXT_PUBLIC_RASA_URL=http://localhost:7860 berlin-crisis-frontend
+   ```
+
+
 
 ## 📞 Support
 
