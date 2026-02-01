@@ -22,8 +22,35 @@ class ActionResetEmergencySlots(Action):
         
         events = []
         
-        # Reset emergency type - user is starting a new emergency
-        events.append(SlotSet("emergency_type", None))
+        # Determine emergency type from latest intent or recent events
+        # Check latest intent first, then check recent events if needed
+        latest_intent = tracker.latest_message.get('intent', {}).get('name', '')
+        emergency_type = None
+        
+        if latest_intent == 'report_earthquake':
+            emergency_type = 'earthquake'
+        elif latest_intent == 'report_flood':
+            emergency_type = 'flood'
+        elif latest_intent == 'report_fire':
+            emergency_type = 'fire'
+        else:
+            # Check recent events for emergency report intent (in case action is called from story)
+            for event in reversed(tracker.events[-10:]):
+                if event.get('event') == 'user':
+                    intent = event.get('parse_data', {}).get('intent', {}).get('name', '')
+                    if intent == 'report_earthquake':
+                        emergency_type = 'earthquake'
+                        break
+                    elif intent == 'report_flood':
+                        emergency_type = 'flood'
+                        break
+                    elif intent == 'report_fire':
+                        emergency_type = 'fire'
+                        break
+        
+        # Set emergency type if detected, otherwise reset to None
+        # This ensures emergency_type is set correctly when a new emergency is reported
+        events.append(SlotSet("emergency_type", emergency_type))
         
         # Reset flow state slots
         events.append(SlotSet("instructions_provided", False))

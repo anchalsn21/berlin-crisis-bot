@@ -22,6 +22,8 @@ rules:
   steps:
     - intent: report_earthquake
     - action: action_reset_emergency_slots
+    - slot_was_set:
+        - emergency_type: earthquake
     - action: utter_acknowledge_earthquake
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
@@ -30,6 +32,8 @@ rules:
   steps:
     - intent: report_flood
     - action: action_reset_emergency_slots
+    - slot_was_set:
+        - emergency_type: flood
     - action: utter_acknowledge_flood
     - action: utter_ask_location
 
@@ -37,6 +41,8 @@ rules:
   steps:
     - intent: report_fire
     - action: action_reset_emergency_slots
+    - slot_was_set:
+        - emergency_type: fire
     - action: utter_acknowledge_fire
     - action: utter_ask_location
 
@@ -54,6 +60,8 @@ rules:
   steps:
     - intent: request_emergency_type
     - action: action_reset_emergency_slots
+    - slot_was_set:
+        - emergency_type: null
     - action: utter_ask_emergency_type
 
 - rule: Handle request shelter info anytime
@@ -71,6 +79,6 @@ rules:
     - intent: request_safety_instructions
     - action: action_provide_safety_instructions
 
-# Note: Injured/trapped responses are handled by stories to allow complete flow control
-# Stories control: injured/trapped -> critical instructions -> location -> shelters -> conclusion
-# Rules were removed to avoid conflicts with story flows
+# Note: Status responses (injured/trapped/safe) are handled by stories to allow complete flow control
+# Stories handle: status -> action_assess_status -> escalation -> location -> shelters -> conclusion
+# Rules were removed to avoid conflicts - stories handle the complete linear flow

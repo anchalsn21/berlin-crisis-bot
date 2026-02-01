@@ -21,7 +21,21 @@ class ActionFindNearestShelters(Action):
             shelters_shown = tracker.get_slot('shelters_shown')
             emergency_type = tracker.get_slot('emergency_type')
             
-            if shelters_shown:
+            # Check if this is an explicit request to show shelters (via request_shelter_info intent)
+            # or if action_handle_shelter_request was just called (which resets shelters_shown)
+            # If so, allow showing shelters again even if they were shown before
+            latest_intent = tracker.latest_message.get('intent', {}).get('name', '')
+            is_explicit_request = latest_intent == 'request_shelter_info'
+            
+            # Also check if action_handle_shelter_request was just called (indicates explicit request)
+            was_handle_shelter_request_called = False
+            for event in reversed(tracker.events[-5:]):
+                if event.get('event') == 'action' and event.get('name') == 'action_handle_shelter_request':
+                    was_handle_shelter_request_called = True
+                    break
+            
+            # Only skip if shelters were shown AND this is not an explicit request
+            if shelters_shown and not is_explicit_request and not was_handle_shelter_request_called:
                 return []
 
             if not district:

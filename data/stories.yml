@@ -12,6 +12,8 @@ stories:
   steps:
     - intent: report_earthquake
     - action: action_reset_emergency_slots
+    - slot_was_set:
+        - emergency_type: earthquake
     - action: utter_acknowledge_earthquake
     - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
@@ -20,6 +22,8 @@ stories:
   steps:
     - intent: report_flood
     - action: action_reset_emergency_slots
+    - slot_was_set:
+        - emergency_type: flood
     - action: utter_acknowledge_flood
     - action: utter_ask_location
 
@@ -27,6 +31,8 @@ stories:
   steps:
     - intent: report_fire
     - action: action_reset_emergency_slots
+    - slot_was_set:
+        - emergency_type: fire
     - action: utter_acknowledge_fire
     - action: utter_ask_location
 
@@ -56,6 +62,8 @@ stories:
     - action: action_ask_status
     - intent: report_injured
     - action: action_assess_status
+    - slot_was_set:
+        - injury_status: injured
     - action: action_escalate_emergency
     - action: utter_injured_response
     - action: utter_ask_location_critical
@@ -76,6 +84,8 @@ stories:
     - action: action_ask_status
     - intent: report_trapped
     - action: action_assess_status
+    - slot_was_set:
+        - injury_status: trapped
     - action: action_escalate_emergency
     - action: utter_trapped_response
     - action: utter_ask_location_critical
@@ -88,9 +98,13 @@ stories:
 
 # Fallback: When status is expected but NLU classifies as nlu_fallback
 # action_assess_status will extract status from text and set injury_status slot
-# These stories handle the flow after action_assess_status processes nlu_fallback
+# These stories handle the complete flow starting from earthquake report
 - story: earthquake - nlu_fallback after status - injured flow
   steps:
+    - intent: report_earthquake
+    - action: action_reset_emergency_slots
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
     - slot_was_set:
         - status_asked: true
@@ -110,6 +124,10 @@ stories:
 
 - story: earthquake - nlu_fallback after status - trapped flow
   steps:
+    - intent: report_earthquake
+    - action: action_reset_emergency_slots
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
     - slot_was_set:
         - status_asked: true
@@ -129,6 +147,10 @@ stories:
 
 - story: earthquake - nlu_fallback after status - safe flow
   steps:
+    - intent: report_earthquake
+    - action: action_reset_emergency_slots
+    - action: utter_acknowledge_earthquake
+    - action: action_provide_earthquake_instructions_immediate
     - action: action_ask_status
     - slot_was_set:
         - status_asked: true
@@ -208,6 +230,11 @@ stories:
     - action: utter_anything_else
 
 
+# ============================================================================
+# FLOOD EMERGENCY - STRICT LINEAR FLOW
+# ============================================================================
+
+# Flow: Flood -> Location -> Instructions -> Shelters -> Status -> Safe -> Conclusion
 - story: flood - safe - complete flow
   steps:
     - intent: report_flood
@@ -225,7 +252,8 @@ stories:
     - action: action_assess_status
     - action: utter_anything_else
 
-- story: flood - injured - escalation
+# Flow: Flood -> Location -> Instructions -> Shelters -> Status -> Injured -> Critical Response -> Conclusion
+- story: flood - injured - complete flow
   steps:
     - intent: report_flood
     - action: action_reset_emergency_slots
@@ -240,10 +268,14 @@ stories:
     - action: action_ask_status
     - intent: report_injured
     - action: action_assess_status
+    - slot_was_set:
+        - injury_status: injured
     - action: action_escalate_emergency
     - action: utter_injured_response
+    - action: utter_anything_else
 
-- story: flood - trapped - escalation
+# Flow: Flood -> Location -> Instructions -> Shelters -> Status -> Trapped -> Critical Response -> Conclusion
+- story: flood - trapped - complete flow
   steps:
     - intent: report_flood
     - action: action_reset_emergency_slots
@@ -258,8 +290,58 @@ stories:
     - action: action_ask_status
     - intent: report_trapped
     - action: action_assess_status
+    - slot_was_set:
+        - injury_status: trapped
     - action: action_escalate_emergency
     - action: utter_trapped_response
+    - action: utter_anything_else
+
+# Fallback: When status is expected but NLU classifies as nlu_fallback (flood)
+- story: flood - nlu_fallback after status - injured flow
+  steps:
+    - intent: report_flood
+    - action: action_reset_emergency_slots
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - slot_was_set:
+        - status_asked: true
+    - intent: nlu_fallback
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: injured
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+    - action: utter_anything_else
+
+- story: flood - nlu_fallback after status - trapped flow
+  steps:
+    - intent: report_flood
+    - action: action_reset_emergency_slots
+    - action: utter_acknowledge_flood
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - slot_was_set:
+        - status_asked: true
+    - intent: nlu_fallback
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: trapped
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+    - action: utter_anything_else
 
 - story: flood - invalid location - retry
   steps:
@@ -283,6 +365,11 @@ stories:
     - action: utter_anything_else
 
 
+# ============================================================================
+# FIRE EMERGENCY - STRICT LINEAR FLOW
+# ============================================================================
+
+# Flow: Fire -> Location -> Instructions -> Shelters -> Status -> Safe -> Conclusion
 - story: fire - safe - complete flow
   steps:
     - intent: report_fire
@@ -300,7 +387,8 @@ stories:
     - action: action_assess_status
     - action: utter_anything_else
 
-- story: fire - injured - escalation
+# Flow: Fire -> Location -> Instructions -> Shelters -> Status -> Injured -> Critical Response -> Conclusion
+- story: fire - injured - complete flow
   steps:
     - intent: report_fire
     - action: action_reset_emergency_slots
@@ -315,10 +403,14 @@ stories:
     - action: action_ask_status
     - intent: report_injured
     - action: action_assess_status
+    - slot_was_set:
+        - injury_status: injured
     - action: action_escalate_emergency
     - action: utter_injured_response
+    - action: utter_anything_else
 
-- story: fire - trapped - escalation
+# Flow: Fire -> Location -> Instructions -> Shelters -> Status -> Trapped -> Critical Response -> Conclusion
+- story: fire - trapped - complete flow
   steps:
     - intent: report_fire
     - action: action_reset_emergency_slots
@@ -333,8 +425,58 @@ stories:
     - action: action_ask_status
     - intent: report_trapped
     - action: action_assess_status
+    - slot_was_set:
+        - injury_status: trapped
     - action: action_escalate_emergency
     - action: utter_trapped_response
+    - action: utter_anything_else
+
+# Fallback: When status is expected but NLU classifies as nlu_fallback (fire)
+- story: fire - nlu_fallback after status - injured flow
+  steps:
+    - intent: report_fire
+    - action: action_reset_emergency_slots
+    - action: utter_acknowledge_fire
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - slot_was_set:
+        - status_asked: true
+    - intent: nlu_fallback
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: injured
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+    - action: utter_anything_else
+
+- story: fire - nlu_fallback after status - trapped flow
+  steps:
+    - intent: report_fire
+    - action: action_reset_emergency_slots
+    - action: utter_acknowledge_fire
+    - action: utter_ask_location
+    - intent: inform_location
+    - action: action_validate_location
+    - slot_was_set:
+        - location_validated: true
+    - action: action_provide_safety_instructions
+    - action: action_find_nearest_shelters
+    - action: action_ask_status
+    - slot_was_set:
+        - status_asked: true
+    - intent: nlu_fallback
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: trapped
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+    - action: utter_anything_else
 
 - story: fire - invalid location - retry
   steps:
