@@ -59,6 +59,9 @@ nlu:
     - quake
     - building is shaking
     - there was an earthquake
+    - seismic activity
+    - earthquake just happened
+    - the emergency is earthquake
 
 - intent: report_flood
   examples: |
@@ -94,6 +97,10 @@ nlu:
     - fire!
     - Fire
     - there's a Fire
+    - Fire approaching
+    - there's a fire
+    - fire in my building
+    - building is on fire
 
 # ============================================================================
 # LOCATION INTENTS
@@ -198,6 +205,25 @@ nlu:
     - broken arm
     - can't walk
     - severe pain
+    - i am hurt
+    - hurt
+    - bleeding
+    - i'm bleeding
+    - we're hurt
+    - we are hurt
+    - got hurt
+    - got injured
+    - i got injured
+    - we got hurt
+    - someone got hurt
+    - someone got injured
+    - injuries
+    - have injuries
+    - i have injuries
+    - we have injuries
+    - in pain
+    - i'm in pain
+    - we're in pain
 
 - intent: report_trapped
   examples: |
@@ -215,6 +241,9 @@ nlu:
     - trapped in building
     - stuck in my apartment
     - door is blocked
+    - surrounded by fire
+    - trapped by fire
+    - stuck in fire
 
 # ============================================================================
 # HELP AND INFORMATION REQUESTS
@@ -263,12 +292,37 @@ nlu:
     - safety instructions
     - Safety Instructions
     - SAFETY INSTRUCTIONS
-    - what should i do
-    - how do i stay safe
     - safety tips
-    - what are the safety instructions
-    - tell me how to stay safe
-    - safety guidelines
+    - what should i do
+    - how to stay safe
+    - safety advice
+
+- intent: request_location_help
+  examples: |
+    - list the districts
+    - show me districts
+    - what districts are available
+    - which districts
+    - help with location
+    - location help
+    - what locations can i use
+    - district list
+
+- intent: request_human_help
+  examples: |
+    - connect me to someone
+    - transfer to human
+    - i need to talk to a person
+    - speak to human operator
+    - human operator please
+    - can i speak to someone
+    - talk to human
+    - human help
+    - i need human assistance
+    - connect me to operator
+    - speak to someone
+    - human operator
+    - transfer to operator
     - what precautions should i take
     - show safety instructions
     - give me safety instructions

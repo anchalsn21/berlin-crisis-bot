@@ -32,7 +32,7 @@ class ActionAssessStatus(Action):
                 # Try to extract status from text even if NLU didn't classify it correctly
                 negations = ['not', 'no', "n't", "aren't", "isn't", "don't", 'never']
                 safe_indicators = ['safe', 'fine', 'okay', 'ok', 'good', 'well', 'alright', "i'm all set"]
-                injury_indicators = ['injured', 'hurt', 'bleeding', 'wounded', 'broken', 'i\'m injured', 'i am injured']
+                injury_indicators = ['injured', 'hurt', 'bleeding', 'wounded', 'broken', 'i\'m injured', 'i am injured', 'i\'m hurt', 'i am hurt', 'got hurt', 'got injured', 'in pain', 'have injuries', 'injuries']
                 trapped_indicators = ['trapped', 'i\'m trapped', 'we\'re trapped', 'i am trapped', 'we are trapped', 'stuck', 'can\'t get out']
 
                 has_negation = any(word in latest_text for word in negations)
@@ -54,8 +54,17 @@ class ActionAssessStatus(Action):
                 # If we extracted status from text, continue processing
                 # Otherwise, fall through to intent-based processing
             
-            # If status was not extracted from text and intent is not a status intent, return early
+            # If status was not extracted from text and intent is not a status intent
+            # BUT: if status_asked is true, we should still try to process even if intent doesn't match
+            # This handles cases where intent is misclassified as out_of_scope or other non-status intents
             if not injury_status and latest_intent not in status_intents and latest_intent != 'nlu_fallback':
+                # If status was asked but we couldn't extract, return empty to allow fallback handling
+                # The calling story/rule should handle the fallback
+                if status_asked:
+                    # Status was asked but extraction failed - return empty to trigger fallback
+                    # This allows stories with nlu_fallback or out_of_scope to handle it
+                    return []
+                # Status was not asked and intent doesn't match - return early
                 return []
 
             if latest_intent == 'report_safe':

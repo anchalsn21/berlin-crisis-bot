@@ -7,25 +7,24 @@ nlu:
 - intent: request_location_help
   examples: |
     - list the districts
-- intent: inform_status
-  examples: |
-    - unfortunately [injured](injury_status)
-    - currently [injured](injury_status)
+    - show me districts
+    - what districts are available
+    - which districts
+    - help with location
+# Removed inform_status - not used in stories/rules, use report_injured instead
 - intent: request_safety_instructions
   examples: |
     - safety tips
-- intent: deny
-  examples: |
-    - that's wrong
-    - wrong
-- intent: inform_emergency_type
-  examples: |
-    - the emergency is [earthquake](emergency_type)
-    - there's a [Fire](emergency_type)
+# Removed deny - not used in stories/rules
+# Removed inform_emergency_type - not used in stories/rules, use report_fire/report_earthquake instead
 - intent: request_human_help
   examples: |
     - connect me to someone
     - transfer to human
+    - i need to talk to a person
+    - speak to human operator
+    - human operator please
+    - can i speak to someone
 - intent: request_emergency_contacts
   examples: |
     - fire department number
@@ -42,27 +41,22 @@ nlu:
     - thanks
     - goodbye
     - that's all
-- intent: affirm
-  examples: |
-    - yes
-    - of course
+# Removed affirm - not used in stories/rules
 - intent: report_trapped
   examples: |
-    - surrounded by fire
     - i am trapped
     - stuck under debris
     - can't move
+    - i'm trapped
+    - we are trapped
+    - can't get out
 - intent: greet
   examples: |
     - emergency
     - hello
     - help me
-- intent: report_Fire
-  examples: |
-    - there's a fire
-    - fire spreading
-    - the forest is on fire
-    - Fire approaching
+# Removed report_Fire - use report_fire instead (lowercase)
+# Test examples moved to report_fire intent
 - intent: report_safe
   examples: |
     - all good
@@ -77,9 +71,10 @@ nlu:
 - intent: report_earthquake
   examples: |
     - the ground is shaking
-    - seismic activity
     - earthquake just happened
     - quake
+    - earthquake
+    - there's an earthquake
 - intent: report_flood
   examples: |
     - my street is flooded
@@ -95,7 +90,8 @@ nlu:
     - [10243](postcode)
     - located in [Mitte](district)
     - [Spandau](district)
-    - [schoneberg](district)
+    - [Schöneberg](district)
+    - schoneberg
 - synonym: Mitte
   examples: |
     - mitte

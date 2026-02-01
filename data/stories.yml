@@ -500,15 +500,89 @@ stories:
     - action: utter_anything_else
 
 
+# Handle nlu_fallback when status was NOT asked - ask for emergency type
 - story: fallback - ask for emergency type
   steps:
+    - slot_was_set:
+        - status_asked: false
     - intent: nlu_fallback
     - action: utter_default_fallback
+
+# Handle nlu_fallback when status WAS asked - try to assess status
+# These are generic stories that work for any emergency type
+- story: nlu_fallback after status asked - injured (generic)
+  steps:
+    - slot_was_set:
+        - status_asked: true
+    - intent: nlu_fallback
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: injured
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+    - action: utter_anything_else
+
+- story: nlu_fallback after status asked - trapped (generic)
+  steps:
+    - slot_was_set:
+        - status_asked: true
+    - intent: nlu_fallback
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: trapped
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+    - action: utter_anything_else
+
+- story: nlu_fallback after status asked - safe (generic)
+  steps:
+    - slot_was_set:
+        - status_asked: true
+    - intent: nlu_fallback
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: safe
+    - action: utter_anything_else
 
 - story: out of scope
   steps:
     - intent: out_of_scope
     - action: utter_out_of_scope
+
+# Handle out_of_scope when status was asked - try to extract status from text
+- story: out_of_scope after status asked - try assess status
+  steps:
+    - slot_was_set:
+        - status_asked: true
+    - intent: out_of_scope
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: injured
+    - action: action_escalate_emergency
+    - action: utter_injured_response
+    - action: utter_anything_else
+
+- story: out_of_scope after status asked - try assess status trapped
+  steps:
+    - slot_was_set:
+        - status_asked: true
+    - intent: out_of_scope
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: trapped
+    - action: action_escalate_emergency
+    - action: utter_trapped_response
+    - action: utter_anything_else
+
+- story: out_of_scope after status asked - try assess status safe
+  steps:
+    - slot_was_set:
+        - status_asked: true
+    - intent: out_of_scope
+    - action: action_assess_status
+    - slot_was_set:
+        - injury_status: safe
+    - action: utter_anything_else
 
 - story: goodbye
   steps:

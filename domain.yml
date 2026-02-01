@@ -23,6 +23,8 @@ intents:
   - request_shelter_info
   - request_safety_instructions
   - request_emergency_type
+  - request_location_help
+  - request_human_help
 
   # Fallback
   - nlu_fallback
