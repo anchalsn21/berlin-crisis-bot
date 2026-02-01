@@ -3,11 +3,8 @@ intents:
   # Greeting and basic
   - greet
   - goodbye
-  - affirm
-  - deny
 
   # Emergency type intents
-  - inform_emergency_type
   - report_earthquake
   - report_flood
   - report_fire
@@ -17,7 +14,6 @@ intents:
   - share_gps_location
 
   # Status intents
-  - inform_status
   - report_injured
   - report_safe
   - report_trapped
@@ -217,53 +213,6 @@ responses:
         - title: "📍 Köpenick"
           payload: "Köpenick"
 
-  utter_location_invalid:
-    - text: |
-        ⚠️ **I couldn't recognize that location.**
-
-        Please provide your Berlin district (e.g., Mitte, Kreuzberg) or postcode (e.g., 10115).
-      buttons:
-        - title: "📍 Mitte"
-          payload: "Mitte"
-        - title: "📍 Kreuzberg"
-          payload: "Kreuzberg"
-        - title: "📍 Charlottenburg"
-          payload: "Charlottenburg"
-        - title: "📍 Prenzlauer Berg"
-          payload: "Prenzlauer Berg"
-        - title: "📍 Neukölln"
-          payload: "Neukölln"
-        - title: "📍 Pankow"
-          payload: "Pankow"
-        - title: "📍 Friedrichshain"
-          payload: "Friedrichshain"
-        - title: "📍 Schöneberg"
-          payload: "Schöneberg"
-        - title: "📍 Wedding"
-          payload: "Wedding"
-        - title: "📍 Lichtenberg"
-          payload: "Lichtenberg"
-        - title: "📍 Steglitz"
-          payload: "Steglitz"
-        - title: "📍 Tempelhof"
-          payload: "Tempelhof"
-        - title: "📍 Spandau"
-          payload: "Spandau"
-        - title: "📍 Marzahn"
-          payload: "Marzahn"
-        - title: "📍 Treptow"
-          payload: "Treptow"
-        - title: "📍 Reinickendorf"
-          payload: "Reinickendorf"
-        - title: "📍 Hellersdorf"
-          payload: "Hellersdorf"
-        - title: "📍 Wilmersdorf"
-          payload: "Wilmersdorf"
-        - title: "📍 Zehlendorf"
-          payload: "Zehlendorf"
-        - title: "📍 Köpenick"
-          payload: "Köpenick"
-
   utter_ask_location_critical:
     - text: |
         📍 **I need your location to help emergency services find you.**
@@ -311,23 +260,6 @@ responses:
         - title: "📍 Köpenick"
           payload: "Köpenick"
 
-  utter_fallback_status_expected:
-    - text: |
-        ⚠️ **I need to know your injury status.**
-
-        **Please tell me:**
-        • Are you **safe**?
-        • Are you **injured**?
-        • Are you **trapped**?
-
-        ⚠️ **If this is life-threatening, please call 112 immediately!**
-      buttons:
-        - title: "✅ I'm safe"
-          payload: "I'm safe"
-        - title: "🤕 I'm injured"
-          payload: "I'm injured"
-        - title: "🆘 I'm trapped"
-          payload: "I'm trapped"
 
   utter_fallback_location_expected:
     - text: |
@@ -349,37 +281,8 @@ responses:
           payload: "Prenzlauer Berg"
 
 
-  # Status prompts
-  utter_ask_status:
-    - text: |
-        **Are you injured or in immediate danger?**
-      buttons:
-        - title: "✅ I'm safe"
-          payload: "I'm safe"
-        - title: "🤕 I'm injured"
-          payload: "I'm injured"
-        - title: "🆘 I'm trapped"
-          payload: "I'm trapped"
-
-  # Safe response
-  utter_safe_response:
-    - text: |
-        ✅ **Good, you're safe!**
-
-        Please follow the safety instructions provided above. Call **112** if your situation changes.
-
-        **What would you like to do next?**
-      buttons:
-        - title: "🚨 Report Emergency"
-          payload: "/request_emergency_type"
-        - title: "🏥 Show Shelters"
-          payload: "/request_shelter_info"
-        - title: "📞 Emergency Contacts"
-          payload: "/request_emergency_contacts"
-        - title: "📋 Safety Instructions"
-          payload: "/request_safety_instructions"
-        - title: "✅ I'm all set"
-          payload: "/goodbye"
+  # Note: Status question is sent directly by action_ask_status
+  # This avoids Rasa validator warnings about unused utterances
 
   # Injured response (escalation)
   utter_injured_response:

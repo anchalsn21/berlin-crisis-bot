@@ -42,29 +42,6 @@ nlu:
     - danke schön
     - vielen dank
 
-- intent: affirm
-  examples: |
-    - yes
-    - yeah
-    - correct
-    - right
-    - sure
-    - ja
-    - ok
-    - okay
-    - alright
-    - got it
-    - understood
-
-- intent: deny
-  examples: |
-    - no
-    - nope
-    - wrong
-    - incorrect
-    - nein
-    - no thanks
-
 # ============================================================================
 # EMERGENCY TYPE INTENTS
 # ============================================================================
@@ -103,30 +80,20 @@ nlu:
 - intent: report_fire
   examples: |
     - fire
-    - there's a fire
     - forest fire
-    - fire in the area
     - smoke everywhere
     - i can see flames
     - waldbrand
     - feuer
     - fire emergency
     - bush fire
+    - i need help with fire
+    - reporting a fire
     - the forest is on fire
     - fire spreading
     - fire!
     - Fire
     - there's a Fire
-
-- intent: inform_emergency_type
-  examples: |
-    - there's a [fire](emergency_type)
-    - experiencing [earthquake](emergency_type)
-    - we have a [flood](emergency_type)
-    - [fire](emergency_type) in the area
-    - the emergency is [earthquake](emergency_type)
-    - this is about [flood](emergency_type)
-    - [earthquake](emergency_type) situation
 
 # ============================================================================
 # LOCATION INTENTS
@@ -248,12 +215,6 @@ nlu:
     - trapped in building
     - stuck in my apartment
     - door is blocked
-
-- intent: inform_status
-  examples: |
-    - my status is [safe](injury_status)
-    - status: [safe](injury_status)
-    - currently [safe](injury_status)
 
 # ============================================================================
 # HELP AND INFORMATION REQUESTS

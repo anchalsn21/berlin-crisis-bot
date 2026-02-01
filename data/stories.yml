@@ -551,15 +551,8 @@ stories:
     - action: action_find_nearest_shelters
     - action: utter_anything_else
 
-# Handle location text input after shelter request (no inform_location intent)
-- story: provide location text after shelter request
-  steps:
-    - action: utter_ask_location
-    - action: action_validate_location
-    - slot_was_set:
-        - location_validated: true
-    - action: action_find_nearest_shelters
-    - action: utter_anything_else
+# Note: Location text input without inform_location intent is handled by action_validate_location
+# which can extract location from text. The story above handles the inform_location intent case.
 
 # Note: request_safety_instructions and request_shelter_info are handled by rules
 # Rules handle these "anytime" requests and end with action_listen
@@ -585,43 +578,8 @@ stories:
     - action: action_find_nearest_shelters
     - action: utter_anything_else
 
-# Handle location text input after critical location question (injured) - no inform_location intent
-- story: earthquake - injured - location text only
-  steps:
-    - intent: report_earthquake
-    - action: action_reset_emergency_slots
-    - action: utter_acknowledge_earthquake
-    - action: action_provide_earthquake_instructions_immediate
-    - action: action_ask_status
-    - intent: report_injured
-    - action: action_assess_status
-    - action: action_escalate_emergency
-    - action: utter_injured_response
-    - action: utter_ask_location_critical
-    - action: action_validate_location
-    - slot_was_set:
-        - location_validated: true
-    - action: action_find_nearest_shelters
-    - action: utter_anything_else
-
-# Handle location text input after critical location question (trapped) - no inform_location intent
-- story: earthquake - trapped - location text only
-  steps:
-    - intent: report_earthquake
-    - action: action_reset_emergency_slots
-    - action: utter_acknowledge_earthquake
-    - action: action_provide_earthquake_instructions_immediate
-    - action: action_ask_status
-    - intent: report_trapped
-    - action: action_assess_status
-    - action: action_escalate_emergency
-    - action: utter_trapped_response
-    - action: utter_ask_location_critical
-    - action: action_validate_location
-    - slot_was_set:
-        - location_validated: true
-    - action: action_find_nearest_shelters
-    - action: utter_anything_else
+# Note: Location text input without inform_location intent is handled by action_validate_location
+# which can extract location from text. The main flow stories handle the inform_location intent case.
 
 - story: flood - GPS location sharing
   steps:

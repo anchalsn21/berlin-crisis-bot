@@ -19,7 +19,15 @@ class ActionAskStatus(Action):
         if status_asked and injury_status:
             return []
         
-        dispatcher.utter_message(response="utter_ask_status")
+        # Send status question directly instead of using utterance response
+        # This avoids the "utter_ask_status not used" warning from Rasa validator
+        message = "**Are you injured or in immediate danger?**"
+        buttons = [
+            {"title": "✅ I'm safe", "payload": "I'm safe"},
+            {"title": "🤕 I'm injured", "payload": "I'm injured"},
+            {"title": "🆘 I'm trapped", "payload": "I'm trapped"}
+        ]
+        dispatcher.utter_message(text=message, buttons=buttons)
         
         return [SlotSet("status_asked", True)]
 

@@ -24,10 +24,11 @@ class ActionAssessStatus(Action):
             latest_intent = tracker.latest_message.get('intent', {}).get('name', '')
             latest_text = tracker.latest_message.get('text', '').lower()
 
-            status_intents = ['report_safe', 'report_injured', 'report_trapped', 'inform_status', 'affirm', 'deny']
+            status_intents = ['report_safe', 'report_injured', 'report_trapped']
             
-            # If status was asked and we got nlu_fallback, try to extract status from text
-            if latest_intent == 'nlu_fallback' and status_asked:
+            # If status was asked, always try to extract status from text, regardless of intent
+            # This handles cases where NLU misclassifies the intent
+            if status_asked:
                 # Try to extract status from text even if NLU didn't classify it correctly
                 negations = ['not', 'no', "n't", "aren't", "isn't", "don't", 'never']
                 safe_indicators = ['safe', 'fine', 'okay', 'ok', 'good', 'well', 'alright', "i'm all set"]
@@ -39,6 +40,7 @@ class ActionAssessStatus(Action):
                 has_injury = any(word in latest_text for word in injury_indicators)
                 has_trapped = any(phrase in latest_text for phrase in trapped_indicators)
 
+                # Extract status from text if found
                 if has_trapped:
                     injury_status = 'trapped'
                 elif has_negation and has_injury:
@@ -49,28 +51,19 @@ class ActionAssessStatus(Action):
                     injury_status = 'injured'
                 elif has_safe:
                     injury_status = 'safe'
-                else:
-                    # Can't determine status, return empty to trigger fallback
-                    return []
+                # If we extracted status from text, continue processing
+                # Otherwise, fall through to intent-based processing
             
-            if latest_intent not in status_intents and latest_intent != 'nlu_fallback':
+            # If status was not extracted from text and intent is not a status intent, return early
+            if not injury_status and latest_intent not in status_intents and latest_intent != 'nlu_fallback':
                 return []
 
-            if latest_intent == 'report_safe' or latest_intent == 'deny':
+            if latest_intent == 'report_safe':
                 injury_status = 'safe'
             elif latest_intent == 'report_injured':
                 injury_status = 'injured'
             elif latest_intent == 'report_trapped':
                 injury_status = 'trapped'
-            elif latest_intent == 'affirm':
-                if status_asked:
-                    recent_bot_messages = [e.get('text', '').lower() for e in tracker.events if e.get('event') == 'bot' and e.get('text')]
-                    if any('injured' in msg or 'danger' in msg for msg in recent_bot_messages[-3:]):
-                        injury_status = 'injured'
-                    else:
-                        injury_status = 'safe'
-                else:
-                    injury_status = 'safe'
             
             if not injury_status and latest_intent in status_intents:
                 negations = ['not', 'no', "n't", "aren't", "isn't", "don't", 'never']
