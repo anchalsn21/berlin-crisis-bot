@@ -1,5 +1,3 @@
-# Berlin Crisis Bot 🚨
-
 ---
 
 title: Berlin Crisis Bot
@@ -10,6 +8,10 @@ sdk: docker
 pinned: false
 license: mit
 short_description: berlin crisis bot
+
+---
+
+# Berlin Crisis Bot 🚨
 
 An intelligent emergency response chatbot designed to assist users during earthquake, flood, and fire emergencies in Berlin. The bot provides real-time safety instructions, location-based shelter information, and critical emergency guidance.
 
