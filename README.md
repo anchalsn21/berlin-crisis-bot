@@ -236,6 +236,7 @@ Throughout the conversation, you can use quick buttons for:
 - **Fallback Threshold**: 0.7 (configurable in `config.yml`)
 
 ## 🧪 Testing
+Test reports are generated in JSON format and used for qualitative evaluation.
 
 ### Test NLU (Intent Classification)
 
